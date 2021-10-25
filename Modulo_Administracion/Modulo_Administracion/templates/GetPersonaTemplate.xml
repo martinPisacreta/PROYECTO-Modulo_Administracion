@@ -1,0 +1,12 @@
+﻿<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+xmlns:a5="http://a5.soap.ws.server.puc.sr/">
+  <soapenv:Header/>
+  <soapenv:Body>
+    <a5:getPersona>
+      <token></token>
+      <sign></sign>
+      <cuitRepresentada></cuitRepresentada>
+      <idPersona></idPersona>
+    </a5:getPersona>
+  </soapenv:Body>
+</soapenv:Envelope>
