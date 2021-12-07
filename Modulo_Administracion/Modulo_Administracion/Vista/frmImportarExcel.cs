@@ -1,18 +1,10 @@
-﻿using Modulo_Administracion.Clases;
-using Modulo_Administracion.Logica;
+﻿using Modulo_Administracion.Logica;
 using Modulo_Administracion.Vista;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.OleDb;
-using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Modulo_Administracion
@@ -82,7 +74,7 @@ namespace Modulo_Administracion
             frmEspere form = new frmEspere();
             try
             {
-                
+
                 string hoja = "";
                 //creamos un objeto OpenDialog que es un cuadro de dialogo para buscar archivos
                 OpenFileDialog dialog = new OpenFileDialog();
@@ -106,7 +98,7 @@ namespace Modulo_Administracion
                     Llenar_DataGridView(txtArchivoExcel.Text, hoja); //se manda a llamar al metodo
 
 
-                    
+
 
 
 
@@ -115,7 +107,7 @@ namespace Modulo_Administracion
 
 
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -123,16 +115,16 @@ namespace Modulo_Administracion
                 Cursor.Current = Cursors.Default;
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-           
+
         }
-        
+
 
         private void Llenar_DataGridView(string archivo, string hoja)
         {
             Cursor.Current = Cursors.WaitCursor;
             try
             {
-                
+
                 //declaramos las variables         
                 OleDbConnection conexion = null;
                 DataSet dataSet = null;
@@ -214,9 +206,16 @@ namespace Modulo_Administracion
                             codigo_articulo = codigo_articulo.Replace("'", "-");
 
                             //elimino los espacios en blanco de mas por uno solo espacio en blanco
-                            row["descripcion_articulo"] =  Regex.Replace(descripcion_articulo, @"\s+", " ");
+                            row["descripcion_articulo"] = Regex.Replace(descripcion_articulo, @"\s+", " ");
                             row["codigo_articulo_marca"] = Regex.Replace(codigo_articulo_marca, @"\s+", " ");
                             row["codigo_articulo"] = Regex.Replace(codigo_articulo, @"\s+", " ");
+
+                            if (row["descripcion_articulo"].ToString().Length > 400)
+                            {
+                                MessageBox.Show("El articulo " + row["codigo_articulo"].ToString() + " tiene una descripcion_articulo que supera los 400 caracteres", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                limpio_form();
+                                return;
+                            }
                         }
 
 
@@ -224,7 +223,7 @@ namespace Modulo_Administracion
                         //cargo los dataGridView
                         dgvExcel.DataSource = data_table_datos; //le asignamos al DataGridView el contenido del data_table_datos_correctos
 
-                       
+
 
                         lblCantidad.Visible = true;
                         lblCantidad.Text = "Cantidad de registros en la grilla : " + dgvExcel.Rows.Count.ToString();
@@ -236,9 +235,9 @@ namespace Modulo_Administracion
                             column.SortMode = DataGridViewColumnSortMode.Automatic;
                         }
 
-                       
+
                         conexion.Close();//cerramos la conexion
-                        
+
 
 
                     }
@@ -263,9 +262,9 @@ namespace Modulo_Administracion
         }
 
 
-   
 
-        
+
+
 
 
         private void frmImportarExcel_Load(object sender, EventArgs e)
@@ -279,7 +278,7 @@ namespace Modulo_Administracion
                 //en caso de haber una excepcion que nos mande un mensaje de error
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
+
         }
 
         private void btnImportar_Click(object sender, EventArgs e)
@@ -305,8 +304,8 @@ namespace Modulo_Administracion
 
                 form.Hide();
                 Cursor.Current = Cursors.Default;
-                
-                if(dgvExcel.Rows.Count == 0)
+
+                if (dgvExcel.Rows.Count == 0)
                 {
                     MessageBox.Show("Importación de Excel correcta", "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Close();
@@ -318,8 +317,8 @@ namespace Modulo_Administracion
                     MessageBox.Show("Algunos articulos no se pudieron importar , en la ultima columna se explica la razon", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                 }
-               
-                
+
+
             }
             catch (Exception ex)
             {
@@ -330,12 +329,12 @@ namespace Modulo_Administracion
             finally
             {
 
-                
-                
+
+
             }
         }
 
-     
+
 
         private DataTable GetDataGridViewAsDataTable(DataGridView _DataGridView)
         {
@@ -362,13 +361,13 @@ namespace Modulo_Administracion
                 }
                 return dtSource;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
         }
 
-       
+
     }
 
 

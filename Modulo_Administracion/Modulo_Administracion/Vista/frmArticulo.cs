@@ -1,15 +1,8 @@
-﻿using Microsoft.VisualBasic;
-using Modulo_Administracion.Clases;
+﻿using Modulo_Administracion.Clases;
 using Modulo_Administracion.Logica;
 using Modulo_Administracion.Vista;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Modulo_Administracion
@@ -26,7 +19,7 @@ namespace Modulo_Administracion
 
         familia familia;
 
-        
+
 
         public frmArticulo(familia _familia)
         {
@@ -35,7 +28,7 @@ namespace Modulo_Administracion
                 InitializeComponent();
                 familia = _familia;
                 iniciar(familia);
-     
+
 
             }
             catch (Exception ex)
@@ -72,7 +65,7 @@ namespace Modulo_Administracion
                 chkTodosMarca.Enabled = false;
                 chkTodosFamilia.Enabled = false;
 
-              
+
                 txtDescripcion.Text = "";
                 txtCodArticulo.Text = "";
 
@@ -341,9 +334,9 @@ namespace Modulo_Administracion
             }
         }
 
-      
 
-     
+
+
 
         private void txtPorcentaje_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -367,7 +360,7 @@ namespace Modulo_Administracion
             frmEspere form = new frmEspere();
             try
             {
-                
+
                 Cursor.Current = Cursors.WaitCursor;
                 form.Show();
                 int id_proveedor = -999;
@@ -494,7 +487,7 @@ namespace Modulo_Administracion
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
+
         }
 
         private void porListaDePreciosDeProveedorToolStripMenuItem_Click(object sender, EventArgs e)
@@ -588,8 +581,8 @@ namespace Modulo_Administracion
 
         private void btnActualizar_Click(object sender, EventArgs e)
         {
-            try 
-            { 
+            try
+            {
 
                 Logica_Articulo logica_articulo = new Logica_Articulo();
                 if (txtPorcentaje.Text == "")
@@ -600,7 +593,7 @@ namespace Modulo_Administracion
                 if (dgvArticulo.Rows.Count == 0)
                 {
                     throw new Exception("No hay registros para actualizar");
-                   
+
                 }
                 DataTable dt = GetDataGridViewAsDataTable(dgvArticulo, Convert.ToInt32(txtPorcentaje.Text));
                 if (MessageBox.Show("¿Desea actualizar un " + txtPorcentaje.Text + "% los articulos visualizados?", "Atención", MessageBoxButtons.YesNo) == DialogResult.No)
@@ -616,9 +609,9 @@ namespace Modulo_Administracion
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-}
+        }
 
-        private DataTable GetDataGridViewAsDataTable(DataGridView _DataGridView,int porcentaje)
+        private DataTable GetDataGridViewAsDataTable(DataGridView _DataGridView, int porcentaje)
         {
             try
             {

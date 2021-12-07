@@ -4,7 +4,6 @@ namespace Modulo_Administracion.Clases
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
     [Table("proveedor")]
     public partial class proveedor
@@ -33,7 +32,7 @@ namespace Modulo_Administracion.Clases
         [StringLength(100)]
         public string accion { get; set; }
 
-        [StringLength(500)]
+        [StringLength(400)]
         public string path_img { get; set; }
 
         public int? id_condicion_ante_iva { get; set; }

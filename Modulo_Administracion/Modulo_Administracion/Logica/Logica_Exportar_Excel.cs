@@ -1,21 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Security;
-using System.Text;
-using Microsoft.VisualBasic;
-using System.Drawing;
-using Microsoft.Office.Interop.Excel;
+﻿using Microsoft.Office.Interop.Excel;
+using System;
 using System.Data;
-using config = System.Configuration;
-using ficheros = System.IO;
+using System.Globalization;
+using System.Reflection;
 using System.Windows.Forms;
-using DevExpress.XtraCharts;
+using ficheros = System.IO;
 using Range = Microsoft.Office.Interop.Excel.Range;
 
 namespace Modulo_Administracion.Logica
@@ -43,12 +32,12 @@ namespace Modulo_Administracion.Logica
                 int idx = 0;
                 while (idx < DS.Tables.Count)
                 {
-                   
+
 
                     Worksheet _sheet = (Worksheet)_wBook.Worksheets.Add(Missing.Value, Missing.Value, Missing.Value, Missing.Value);
                     _sheet.Name = sheets.ToString();
 
-                
+
                     //montamos las cabeceras de las columnas y les damos formato
                     int r = 1;
                     Range rng = (Range)_sheet.Cells[r, 1];
@@ -90,7 +79,7 @@ namespace Modulo_Administracion.Logica
                         }
                         System.Math.Max(System.Threading.Interlocked.Increment(ref r), r - 1);
 
-                      
+
                     }
                     System.Math.Max(System.Threading.Interlocked.Increment(ref idx), idx - 1);
                 }
@@ -113,14 +102,14 @@ namespace Modulo_Administracion.Logica
                 else
                     _excel.Visible = true;
 
-              
+
                 System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.CreateSpecificCulture(sTMP);
             }
             catch (Exception ex)
             {
                 string ss = ex.Message;
                 System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.CreateSpecificCulture(sTMP);
-              
+
                 MessageBox.Show(ss);
             }
         }

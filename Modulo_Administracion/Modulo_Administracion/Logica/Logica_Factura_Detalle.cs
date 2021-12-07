@@ -3,24 +3,22 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Modulo_Administracion.Logica
 {
     public class Logica_Factura_Detalle
     {
 
-      
+
         public List<factura_detalle> buscar_detalle_factura_por_id_factura(int id_factura, Modulo_AdministracionContext db)
         {
-            
+
             try
             {
 
                 List<factura_detalle> factura_detalle = (from fd in db.factura_detalle
                                                          where fd.id_factura == id_factura && fd.fec_baja == null
-                                                  select fd).ToList();
+                                                         select fd).ToList();
 
 
                 return factura_detalle;
@@ -30,13 +28,13 @@ namespace Modulo_Administracion.Logica
             {
                 throw ex;
             }
-           
+
 
 
         }
 
 
-      
+
 
         public bool baja_item_a_factura(int id_factura_detalle)
         {
@@ -52,7 +50,7 @@ namespace Modulo_Administracion.Logica
                     factura_detalle factura_detalle_db = db.factura_detalle.FirstOrDefault(c => c.id_factura_detalle == id_factura_detalle);
                     factura_detalle_db.fec_baja = DateTime.Now;
                     db.SaveChanges();
-                    
+
                     transaction.Commit();
                     bandera = true;
 
@@ -71,9 +69,9 @@ namespace Modulo_Administracion.Logica
         }
 
 
-    
 
-        public bool alta_item_a_factura(factura_detalle item_factura,factura factura_db,Modulo_AdministracionContext db)
+
+        public bool alta_item_a_factura(factura_detalle item_factura, factura factura_db, Modulo_AdministracionContext db)
         {
 
             bool bandera = false;
@@ -98,7 +96,7 @@ namespace Modulo_Administracion.Logica
                     factura_detalle_a_insertar.id_articulo = item_factura.id_articulo;
                 }
 
-              
+
                 factura_detalle_a_insertar.fec_baja = null;
                 db.factura_detalle.Add(factura_detalle_a_insertar);
                 db.SaveChanges();
@@ -112,7 +110,7 @@ namespace Modulo_Administracion.Logica
             }
         }
 
-        public bool modificacion_item_a_factura(factura_detalle factura_detalle_db,factura_detalle item_factura_a_modificar, factura factura_db, Modulo_AdministracionContext db)
+        public bool modificacion_item_a_factura(factura_detalle factura_detalle_db, factura_detalle item_factura_a_modificar, factura factura_db, Modulo_AdministracionContext db)
         {
 
             bool bandera = false;
@@ -135,7 +133,7 @@ namespace Modulo_Administracion.Logica
                     factura_detalle_db.id_articulo = item_factura_a_modificar.id_articulo;
                 }
 
-                
+
                 //factura_detalle_db.fec_baja = null; no lo modifico esto
                 db.SaveChanges();
 

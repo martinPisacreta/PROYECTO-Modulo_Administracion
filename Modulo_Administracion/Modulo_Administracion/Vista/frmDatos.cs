@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Security;
-using System.Text;
-using Microsoft.VisualBasic;
-using System.Windows.Forms;
-using Modulo_Administracion.Clases;
+﻿using Modulo_Administracion.Clases;
 using Modulo_Administracion.Logica;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace Modulo_Administracion
 {
@@ -36,13 +28,13 @@ namespace Modulo_Administracion
 
 
 
-        public frmDatos() 
+        public frmDatos()
         {
             Cursor.Current = Cursors.WaitCursor;
             try
             {
                 InitializeComponent();
-               
+
             }
             catch (Exception exception)
             {
@@ -88,7 +80,7 @@ namespace Modulo_Administracion
                 cbTipoDato.SelectedValue = 1;
 
 
-              
+
             }
             catch (Exception ex)
             {
@@ -256,7 +248,7 @@ namespace Modulo_Administracion
                     }
                     else if (tipo == 2)
                     {
-                       
+
                         txtDato.Text = lista_aux_cliente[dgvDatos.SelectedRows[0].Index].txt_dato_cliente;
                         cbTipoDato.SelectedValue = lista_aux_cliente[dgvDatos.SelectedRows[0].Index].cod_tipo_dato;
                         cliente_datos = lista_aux_cliente[dgvDatos.SelectedRows[0].Index];
@@ -351,7 +343,7 @@ namespace Modulo_Administracion
             {
                 Cursor.Current = Cursors.Default;
             }
-       
+
         }
         private void Valido() // Valido la entrada de datos
         {
@@ -474,8 +466,8 @@ namespace Modulo_Administracion
                     cliente_datos.txt_dato_cliente = txtDato.Text;
                     cliente_datos.sn_activo = -1;
                 }
-              
-                
+
+
             }
             catch (Exception ex)
             {
@@ -592,7 +584,7 @@ namespace Modulo_Administracion
                     {
                         lista_aux_cliente[indice].sn_activo = 0;
                     }
-                    
+
                     CargarGrilla(null, lista_aux_cliente);
                 }
                 ConfigurarForm(Program.Inicio);
@@ -625,7 +617,7 @@ namespace Modulo_Administracion
                 LimpioForm();
                 ConfigurarForm(Program.Inicio);
 
-               
+
             }
             catch (Exception ex)
             {
@@ -646,7 +638,7 @@ namespace Modulo_Administracion
         }
         private void Habilito(bool habilito)
         {
-          
+
             try
             {
                 if (habilito == true)

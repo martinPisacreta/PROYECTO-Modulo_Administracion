@@ -1,15 +1,11 @@
 ﻿using Modulo_Administracion.Clases;
 
 using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.Entity;
-using System.Data.Linq.SqlClient;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Modulo_Administracion.Logica
 {
@@ -82,7 +78,7 @@ namespace Modulo_Administracion.Logica
                             }
                         }
                     }
-                    
+
 
                     bandera = true;
                     dbContextTransaction.Commit();
@@ -97,7 +93,7 @@ namespace Modulo_Administracion.Logica
                 {
                     db = null;
                 }
-            }  
+            }
         }
 
         public bool modificar_cliente(cliente cliente)
@@ -121,7 +117,7 @@ namespace Modulo_Administracion.Logica
                     cliente_db.fec_ult_modif = DateTime.Now;
                     cliente_db.id_condicion_factura = cliente.id_condicion_factura;
                     cliente_db.id_tipo_cliente = cliente.id_tipo_cliente;
-                    cliente_db.id_vendedor = cliente.id_vendedor > 0 ? cliente.id_vendedor : null ;
+                    cliente_db.id_vendedor = cliente.id_vendedor > 0 ? cliente.id_vendedor : null;
                     db.SaveChanges();
 
 
@@ -154,7 +150,7 @@ namespace Modulo_Administracion.Logica
                             }
                         }
                     }
-                    
+
 
                     dbContextTransaction.Commit();
                     bandera = true;
@@ -221,7 +217,7 @@ namespace Modulo_Administracion.Logica
                         }
                     }
                     //no habilite la opcion de eliminar facturas 
-                    
+
 
                     dbContextTransaction.Commit();
                     bandera = true;
@@ -245,16 +241,16 @@ namespace Modulo_Administracion.Logica
             Modulo_AdministracionContext db = new Modulo_AdministracionContext();
             try
             {
-             
+
 
                 var clientes = (from p in db.cliente
-                                               where p.sn_activo == -1
-                                          select new
-                                          {
-                                              p.id_cliente,
-                                              p.nombre_fantasia,
-                                              p.vendedor.nombre
-                                          }).ToList();
+                                where p.sn_activo == -1
+                                select new
+                                {
+                                    p.id_cliente,
+                                    p.nombre_fantasia,
+                                    p.vendedor.nombre
+                                }).ToList();
 
 
                 return clientes;
@@ -267,11 +263,11 @@ namespace Modulo_Administracion.Logica
             {
                 db = null;
             }
-           
+
         }
 
 
-        public cliente buscar_cliente_por_nombre_fantasia_activo(string nombre_fantasia,int id_cliente)
+        public cliente buscar_cliente_por_nombre_fantasia_activo(string nombre_fantasia, int id_cliente)
         {
 
             Modulo_AdministracionContext db = new Modulo_AdministracionContext();
@@ -293,14 +289,14 @@ namespace Modulo_Administracion.Logica
 
         }
 
-        public cliente buscar_cliente_por_razon_social_activo(string razon_social,int id_cliente)
+        public cliente buscar_cliente_por_razon_social_activo(string razon_social, int id_cliente)
         {
 
             Modulo_AdministracionContext db = new Modulo_AdministracionContext();
             try
             {
 
-                cliente cliente = db.cliente.FirstOrDefault(p => p.razon_social == razon_social  && p.sn_activo == -1 && p.id_cliente != id_cliente);
+                cliente cliente = db.cliente.FirstOrDefault(p => p.razon_social == razon_social && p.sn_activo == -1 && p.id_cliente != id_cliente);
 
                 return cliente;
             }
@@ -322,7 +318,7 @@ namespace Modulo_Administracion.Logica
             Modulo_AdministracionContext db = new Modulo_AdministracionContext();
             try
             {
-       
+
                 cliente cliente = db.cliente.FirstOrDefault(p => p.id_cliente == id_cliente);
 
                 return cliente;
@@ -341,7 +337,7 @@ namespace Modulo_Administracion.Logica
         public cliente buscar_cliente(int id_cliente, Modulo_AdministracionContext db)
         {
 
-           
+
             try
             {
 
@@ -353,11 +349,11 @@ namespace Modulo_Administracion.Logica
             {
                 throw exception1;
             }
-            
+
 
         }
 
-        public object filtro_cliente_nombre_fantasia(string txtBusqueda,int valor_busqueda)
+        public object filtro_cliente_nombre_fantasia(string txtBusqueda, int valor_busqueda)
         {
 
             Modulo_AdministracionContext db = new Modulo_AdministracionContext();
@@ -367,20 +363,20 @@ namespace Modulo_Administracion.Logica
                 //si valor_busqueda es 1 , el filtro es por cliente
                 //si valor_busqueda es 1 , el filtro es por vendedor
                 var clientes = (from p in db.cliente
-                                          where 
-                                                p.sn_activo == -1 
-                                                && 
-                                                (
-                                                    (p.nombre_fantasia.Contains(txtBusqueda) && valor_busqueda == 1)
-                                                    ||
-                                                    (p.vendedor.nombre.Contains(txtBusqueda) && valor_busqueda == 2)
-                                                )
-                                          select new
-                                          {
-                                              p.id_cliente,
-                                              p.nombre_fantasia,
-                                              p.vendedor.nombre
-                                          }).ToList();
+                                where
+                                      p.sn_activo == -1
+                                      &&
+                                      (
+                                          (p.nombre_fantasia.Contains(txtBusqueda) && valor_busqueda == 1)
+                                          ||
+                                          (p.vendedor.nombre.Contains(txtBusqueda) && valor_busqueda == 2)
+                                      )
+                                select new
+                                {
+                                    p.id_cliente,
+                                    p.nombre_fantasia,
+                                    p.vendedor.nombre
+                                }).ToList();
 
 
                 return clientes;
@@ -395,7 +391,7 @@ namespace Modulo_Administracion.Logica
             }
 
 
-            
+
         }
 
         public DataSet buscar_clientes(string razon_social)
@@ -477,7 +473,7 @@ namespace Modulo_Administracion.Logica
             {
 
                 var clientes = (from p in db.cliente
-                              where p.id_vendedor == id_vendedor && p.sn_activo == -1
+                                where p.id_vendedor == id_vendedor && p.sn_activo == -1
                                 select new
                                 {
                                     p.id_cliente,

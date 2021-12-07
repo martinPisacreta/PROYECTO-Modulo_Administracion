@@ -1,32 +1,19 @@
-﻿using DevExpress.XtraReports.Parameters;
-using DevExpress.Utils;
-using DevExpress.XtraGrid.Views.Grid;
-using DevExpress.XtraGrid.Views.Grid.ViewInfo;
-using DevExpress.XtraReports.UI;
+﻿using DevExpress.Utils.Menu;
+using Modulo_Administracion.Capas.Logica_Afip;
 using Modulo_Administracion.Clases;
 using Modulo_Administracion.Logica;
+using Modulo_Administracion.WSFEHOMO;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Diagnostics;
-using DevExpress.Utils.Menu;
-using System.Globalization;
-using System.IO;
-using DevExpress.XtraCharts;
-using System.Data.Entity;
 using System.Drawing.Printing;
-using Modulo_Administracion.Capas.Logica_Afip;
-using Modulo_Administracion.WSFEHOMO;
-using System.Security.Cryptography.X509Certificates;
+using System.IO;
 using System.Security;
+using System.Security.Cryptography.X509Certificates;
+using System.Windows.Forms;
 
 namespace Modulo_Administracion.Vista
 {
@@ -84,13 +71,13 @@ namespace Modulo_Administracion.Vista
 
                 factura = _factura;
 
-              
-             
+
+
                 dgvFactura.Rows.Add(cantidad_filas_a_dataGridView);    //genero 50 lineas al dataGridView
                 //dgvFactura.AutoGenerateColumns = false;
 
                 txtClienteId.Enabled = false;  //nunca se va a poder modificar id_cliente
-                
+
                 txtClienteId.Visible = false;  //nunca se va a poder ver id_cliente
                 txtPagoMayor30DiasPorcentaje.ReadOnly = true;
                 txtPagoMenor7DiasPorcentaje1.ReadOnly = true;
@@ -117,7 +104,7 @@ namespace Modulo_Administracion.Vista
                 dgvFactura.Columns["col_precio"].DefaultCellStyle.Format = "N2";
                 dgvFactura.Columns["col_importe"].DefaultCellStyle.Format = "N2";
                 dgvFactura.Columns["col_precio_lista_x_coeficiente"].DefaultCellStyle.Format = "N2";
-               
+
 
                 if (factura == null) //si la accion es alta
                 {
@@ -126,7 +113,7 @@ namespace Modulo_Administracion.Vista
                 }
                 else                        //si la accion es modificacion
                 {
-                    Accion = 2; 
+                    Accion = 2;
                     txtCliente.Enabled = true;
 
 
@@ -187,10 +174,10 @@ namespace Modulo_Administracion.Vista
                     {
                         panelConceptoServicio.Visible = true;
                     }
-                  
+
                 }
 
-                
+
             }
             catch (Exception ex)
             {
@@ -209,7 +196,7 @@ namespace Modulo_Administracion.Vista
                 TipoConcepto.DisplayMember = "Desc";
                 TipoDocCMB.DisplayMember = "Desc";
                 MonedaCMB.DisplayMember = "Desc";
-             
+
 
                 string CERTIFICADO_PATH = null;
                 string URL_LOGIN = null;
@@ -235,7 +222,7 @@ namespace Modulo_Administracion.Vista
                     }
                 }
 
-                else 
+                else
                 {
                     if (!AFIP_ELECTRONICA.CERTIFICADO_EXISTE(CGLOBAL.WS_CERTIFICADO_PATH))
                     {
@@ -250,7 +237,7 @@ namespace Modulo_Administracion.Vista
                 authRequest.Sign = LOGIN.SIGN;
                 authRequest.Token = LOGIN.TOKEN;
 
-              
+
                 if (testing_rb.Checked == true)
                 {
                     url = "https://wswhomo.afip.gov.ar/wsfev1/service.asmx?WSDL";
@@ -373,7 +360,7 @@ namespace Modulo_Administracion.Vista
                 }
                 MonedaCMB.DataSource = Monedas_Final;
 
-               
+
                 TiposIVA = service.FEParamGetTiposIva(authRequest);
                 DataGridViewComboBoxColumn comboboxColumn = dgvFactura.Columns["col_iva_aumento"] as DataGridViewComboBoxColumn;
                 comboboxColumn.DataSource = TiposIVA.ResultGet;
@@ -385,7 +372,7 @@ namespace Modulo_Administracion.Vista
 
                 opcionales = service.FEParamGetTiposOpcional(authRequest);
 
-              
+
             }
             catch (Exception ex)
             {
@@ -484,8 +471,8 @@ namespace Modulo_Administracion.Vista
             //Para comprobantes clase A y M el campo DocTipo tenga valor 80 (CUIT)
             if (tipo_comprobante.Id == 1 || tipo_comprobante.Id == 51) //SI EL TIPO DE COMPROBANTES A O M
             {
-                    if (doc_tipo.Id != 80) //y el tipo doc es distinto a 80
-                        throw new Exception("Para comprobantes del tipo A o M el campo DocTipo tiene que tener valor 80 (CUIT)");
+                if (doc_tipo.Id != 80) //y el tipo doc es distinto a 80
+                    throw new Exception("Para comprobantes del tipo A o M el campo DocTipo tiene que tener valor 80 (CUIT)");
             }
 
             //10014)
@@ -524,39 +511,39 @@ namespace Modulo_Administracion.Vista
             //deberá verificarse que el número consignado se encuentre en los padrones de la AFIP.Si DocTipo es 80 y DocNro
             //es 23000000000(No Categorizado) esta validación no se tendrá en cuenta.
 
-                /* PARA USAR -> AFIP_ELECTRONICA.WS_SERVICIO.ws_sr_constancia_inscripcion
-                    TENGO QUE TENER ASOCIADO EN AFIP->Servicio Consulta Padron A5 y  Consulta de constancia de inscripción
-                        PARA ESO:
-                            1-  Entrar a AFIP en "Administrador de Relaciones de Clave Fiscal"
-                            2-  Elegir "Nueva Relación"
-                            3-  Presionar "BUSCAR" para seleccionar el webservice de AFIP
-                            4-  CLICK EN AFIP
-                            5-  CLICK EN WEB SERVICE
-                            6-  BUSCO "Servicio Consulta Padron A5"
-                            7-  Presionar "BUSCAR" para seleccionar el REPRESENTANTE, seleccionar el nombre del alias del "Computador Fiscal"
-                            8-  Presionar Confirmar
-                            9-  BUSCO "Consulta de constancia de inscripción"
-                            10- Repito paso 7 y 8
-                */
-                AFIP_ELECTRONICA.LOGIN LOGIN = AFIP_ELECTRONICA.GET_LOGIN(AFIP_ELECTRONICA.WS_AMBIENTE.PRODUCCION, AFIP_ELECTRONICA.WS_SERVICIO.ws_sr_constancia_inscripcion, CERTIFICADO_PATH, URL_LOGIN);
-                long CUIT_EMISOR = Convert.ToInt64(CGLOBAL.WS_EMISOR_CUIT);
-                long CUIT_COMPRADOR = Convert.ToInt64(DocTX.Text);
-                WS_SR_CONSTANCIA_INSCRIPCION.personaReturn PERSONA = AFIP_ELECTRONICA.GET_PERSON(LOGIN, CUIT_EMISOR, CUIT_COMPRADOR);
-                if (tipo_comprobante.Id == 6) //SI EL TIPO DE COMPROBANTES B
+            /* PARA USAR -> AFIP_ELECTRONICA.WS_SERVICIO.ws_sr_constancia_inscripcion
+                TENGO QUE TENER ASOCIADO EN AFIP->Servicio Consulta Padron A5 y  Consulta de constancia de inscripción
+                    PARA ESO:
+                        1-  Entrar a AFIP en "Administrador de Relaciones de Clave Fiscal"
+                        2-  Elegir "Nueva Relación"
+                        3-  Presionar "BUSCAR" para seleccionar el webservice de AFIP
+                        4-  CLICK EN AFIP
+                        5-  CLICK EN WEB SERVICE
+                        6-  BUSCO "Servicio Consulta Padron A5"
+                        7-  Presionar "BUSCAR" para seleccionar el REPRESENTANTE, seleccionar el nombre del alias del "Computador Fiscal"
+                        8-  Presionar Confirmar
+                        9-  BUSCO "Consulta de constancia de inscripción"
+                        10- Repito paso 7 y 8
+            */
+            AFIP_ELECTRONICA.LOGIN LOGIN = AFIP_ELECTRONICA.GET_LOGIN(AFIP_ELECTRONICA.WS_AMBIENTE.PRODUCCION, AFIP_ELECTRONICA.WS_SERVICIO.ws_sr_constancia_inscripcion, CERTIFICADO_PATH, URL_LOGIN);
+            long CUIT_EMISOR = Convert.ToInt64(CGLOBAL.WS_EMISOR_CUIT);
+            long CUIT_COMPRADOR = Convert.ToInt64(DocTX.Text);
+            WS_SR_CONSTANCIA_INSCRIPCION.personaReturn PERSONA = AFIP_ELECTRONICA.GET_PERSON(LOGIN, CUIT_EMISOR, CUIT_COMPRADOR);
+            if (tipo_comprobante.Id == 6) //SI EL TIPO DE COMPROBANTES B
+            {
+                //Y EL TIPO DE DOCUMENTO ES ALGU Y D9 ESTOS
+                //EN CASO DE SER TIPO DOCUMENTO 80 Y DNI 23000000000 NO ENTRA AL IF SIGUIENTE
+                if (
+                        (doc_tipo.Id == 80 && DocTX.Text != "23000000000") ||
+                        doc_tipo.Id == 86 ||
+                        doc_tipo.Id == 87
+                    )
                 {
-                    //Y EL TIPO DE DOCUMENTO ES ALGU Y D9 ESTOS
-                    //EN CASO DE SER TIPO DOCUMENTO 80 Y DNI 23000000000 NO ENTRA AL IF SIGUIENTE
-                    if (
-                            (doc_tipo.Id == 80 && DocTX.Text != "23000000000") ||
-                            doc_tipo.Id == 86 ||
-                            doc_tipo.Id == 87 
-                        ) 
-                    {
-                        //Y LA PERSONA NO EXISTE EN AFIP
-                        if(PERSONA == null)
-                            throw new Exception("El receptor no existe en los padrones de la afip");           
-                    }
+                    //Y LA PERSONA NO EXISTE EN AFIP
+                    if (PERSONA == null)
+                        throw new Exception("El receptor no existe en los padrones de la afip");
                 }
+            }
 
             //4)
             //Si el campo DocTipo es distinto de 80, 86 u 87, deberá verificarse que se ingrese uno de los valores devueltos 
@@ -624,9 +611,9 @@ namespace Modulo_Administracion.Vista
                 {
                     if (factura.id_factura > 0) //entro aca si id_factura es mayor a 0
                     {
-                       
-                      
-                       
+
+
+
                         txtCliente.Text = factura.cliente.nombre_fantasia;
                         txtClienteId.Text = factura.cliente.id_cliente.ToString();
                         txtObservacion.Text = factura.observacion;
@@ -646,10 +633,10 @@ namespace Modulo_Administracion.Vista
                                     if (factura_detalle.id_articulo == null) //todos los datos los traigo desde la tabla  "factura_detalle"
                                     {
                                         ganancia = (factura_detalle.precio_lista_x_coeficiente * factura_detalle.iva) / 100;
-                                        ganancia = Math.Round(ganancia, nro_redondeo , MidpointRounding.AwayFromZero);
+                                        ganancia = Math.Round(ganancia, nro_redondeo, MidpointRounding.AwayFromZero);
 
                                         precio = factura_detalle.precio_lista_x_coeficiente + ganancia;
-                                        precio = Math.Round(precio, nro_redondeo , MidpointRounding.AwayFromZero);
+                                        precio = Math.Round(precio, nro_redondeo, MidpointRounding.AwayFromZero);
 
                                         dgvFactura.Rows[indice].Cells[3].Value = factura_detalle.descripcion_articulo;
                                         dgvFactura.Rows[indice].Cells[4].Value = precio == 0 ? "" : precio.ToString("N2");
@@ -659,19 +646,19 @@ namespace Modulo_Administracion.Vista
                                     else                                    //los datos los traigo desde la tabla "articulo"
                                     {
                                         precio_lista = (factura_detalle.articulo.precio_lista == null ? 0.00M : factura_detalle.articulo.precio_lista.Value);
-                                        precio_lista = Math.Round(precio_lista, nro_redondeo , MidpointRounding.AwayFromZero);
+                                        precio_lista = Math.Round(precio_lista, nro_redondeo, MidpointRounding.AwayFromZero);
 
                                         //NO TENGO QUE REDONDEAR NUNCA
                                         coeficiente = (logica_familia.precio_coeficiente(2, factura_detalle.articulo.familia.algoritmo_1, factura_detalle.articulo.familia.algoritmo_2, factura_detalle.articulo.familia.algoritmo_3, factura_detalle.articulo.familia.algoritmo_4, factura_detalle.articulo.familia.algoritmo_5, factura_detalle.articulo.familia.algoritmo_6, factura_detalle.articulo.familia.algoritmo_7, factura_detalle.articulo.familia.algoritmo_8, factura_detalle.articulo.familia.algoritmo_9));
-                                        
+
                                         precio_lista_x_coeficiente = (precio_lista * coeficiente);
-                                        precio_lista_x_coeficiente = Math.Round(precio_lista_x_coeficiente, nro_redondeo , MidpointRounding.AwayFromZero);
+                                        precio_lista_x_coeficiente = Math.Round(precio_lista_x_coeficiente, nro_redondeo, MidpointRounding.AwayFromZero);
 
                                         ganancia = (precio_lista_x_coeficiente * factura_detalle.iva) / 100;
-                                        ganancia = Math.Round(ganancia, nro_redondeo , MidpointRounding.AwayFromZero);
+                                        ganancia = Math.Round(ganancia, nro_redondeo, MidpointRounding.AwayFromZero);
 
                                         precio = precio_lista_x_coeficiente + ganancia;
-                                        precio = Math.Round(precio, nro_redondeo , MidpointRounding.AwayFromZero);
+                                        precio = Math.Round(precio, nro_redondeo, MidpointRounding.AwayFromZero);
 
                                         dgvFactura.Rows[indice].Cells[3].Value = factura_detalle.articulo.descripcion_articulo;
                                         dgvFactura.Rows[indice].Cells[4].Value = precio == 0 ? "" : precio.ToString("N2");
@@ -680,7 +667,7 @@ namespace Modulo_Administracion.Vista
                                     }
 
                                     importe = precio * factura_detalle.cantidad;
-                                    importe = Math.Round(importe, nro_redondeo , MidpointRounding.AwayFromZero);
+                                    importe = Math.Round(importe, nro_redondeo, MidpointRounding.AwayFromZero);
 
                                     dgvFactura.Rows[indice].Cells[5].Value = importe == 0 ? "" : importe.ToString("N2"); //col_importe
                                     dgvFactura.Rows[indice].Cells[7].Value = factura_detalle.iva.ToString("N2"); //col_iva
@@ -750,7 +737,7 @@ namespace Modulo_Administracion.Vista
             try
             {
 
-              
+
                 txtCliente.Text = "";
                 txtClienteId.Text = "";
                 txtObservacion.Text = "";
@@ -818,7 +805,7 @@ namespace Modulo_Administracion.Vista
                     chkMostrarMenor7Dias.Enabled = false;
                     chkMostrarMenor30Dias.Enabled = false;
 
-                   
+
                     txtCliente.Enabled = false;
 
                 }
@@ -934,9 +921,9 @@ namespace Modulo_Administracion.Vista
                     }
                 }
 
-                
-                    
-                
+
+
+
 
                 //si la columna es col_marca
                 if (dgvFactura.CurrentCell.ColumnIndex == 1)
@@ -958,7 +945,7 @@ namespace Modulo_Administracion.Vista
                     {
                         codigo_articulo_marca = "";
                         auto_text_codigo.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-                        
+
                         if (dgvFactura.CurrentRow.Cells["col_marca"].Value != null)
                         {
                             codigo_articulo_marca = dgvFactura.CurrentRow.Cells["col_marca"].Value.ToString();
@@ -1078,7 +1065,7 @@ namespace Modulo_Administracion.Vista
                     string col_id_articulo = dataGridView.Rows[i].Cells["col_id_articulo"].Value == null ? "" : dataGridView.Rows[i].Cells["col_id_articulo"].Value.ToString();
                     string col_id_factura_detalle = dataGridView.Rows[i].Cells["col_id_factura_detalle"].Value == null ? "" : dataGridView.Rows[i].Cells["col_id_factura_detalle"].Value.ToString();
 
-                    if(col_cantidad == "" || col_marca == "" || col_codigo == "" || col_descripcion == "" || col_precio == "" || col_importe == "" || col_precio_lista_x_coeficiente == "" || col_iva_aumento == "" || col_id_articulo == "") //SI ALGUNA DE ESTAS CELDAS ESTA VACIA
+                    if (col_cantidad == "" || col_marca == "" || col_codigo == "" || col_descripcion == "" || col_precio == "" || col_importe == "" || col_precio_lista_x_coeficiente == "" || col_iva_aumento == "" || col_id_articulo == "") //SI ALGUNA DE ESTAS CELDAS ESTA VACIA
                     {
                         if (col_cantidad == "" && col_marca == "" && col_codigo == "" && col_descripcion == "" && col_precio == "" && col_importe == "" && col_precio_lista_x_coeficiente == "" && col_id_articulo == "") //... Y TODA LA FILA ESTA VACIA ... NO HAGO NADA
                         {
@@ -1129,7 +1116,7 @@ namespace Modulo_Administracion.Vista
                         col_precio_lista_x_coeficiente == "" &&
                         //col_iva_aumento == "" &&
                         col_id_articulo == ""
-                        //col_id_factura_detalle == ""
+                    //col_id_factura_detalle == ""
                     )
                     {
                         cantidad_filas_vacias = cantidad_filas_vacias + 1;
@@ -1149,7 +1136,7 @@ namespace Modulo_Administracion.Vista
             Cursor.Current = Cursors.WaitCursor;
             try
             {
-               
+
                 if (txtCliente.Text == "" || txtClienteId.Text == "")
                 {
                     txtCliente.Focus();
@@ -1169,7 +1156,7 @@ namespace Modulo_Administracion.Vista
                     throw new Exception("No pueden haber celdas vacias");
                 }
 
-             
+
             }
             catch (Exception ex)
             {
@@ -1183,7 +1170,7 @@ namespace Modulo_Administracion.Vista
         } // Valido la entrada de datos
 
 
-       
+
 
 
 
@@ -1266,7 +1253,7 @@ namespace Modulo_Administracion.Vista
                                 throw new Exception("Debe ingresar el nro de copias");
                             }
 
-                            bool impresion = Logica_Funciones_Generales.mandar_a_imprimir(FilePath_PDF,cbImpresoras.Text,Convert.ToInt16(txtNroCopias.Text));
+                            bool impresion = Logica_Funciones_Generales.mandar_a_imprimir(FilePath_PDF, cbImpresoras.Text, Convert.ToInt16(txtNroCopias.Text));
                             if (impresion == false)
                             {
                                 form.Hide();
@@ -1285,7 +1272,7 @@ namespace Modulo_Administracion.Vista
 
 
                     this.Close();
-                  
+
                 }
             }
             catch (Exception ex)
@@ -1301,18 +1288,18 @@ namespace Modulo_Administracion.Vista
                 else
                 {
                     MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                } 
+                }
             }
             finally
             {
                 form.Hide();
                 Cursor.Current = Cursors.Default;
             }
-    }
+        }
 
 
 
-    private void SeteoObjeto(int tipo_grabacion) //1 -> GRABAR , 2 -> "GRABAR Y GENERAR PDF" , 3 -> "GRABAR , GENERAR PDF E IMPRIMIR"
+        private void SeteoObjeto(int tipo_grabacion) //1 -> GRABAR , 2 -> "GRABAR Y GENERAR PDF" , 3 -> "GRABAR , GENERAR PDF E IMPRIMIR"
         {
             decimal? ganancia;
             decimal importe;
@@ -1323,10 +1310,10 @@ namespace Modulo_Administracion.Vista
 
 
                 //factura.id_factura  -- si es alta , no tiene y si es modificacion ya viene cargado en el objeto
-          
+
                 factura.id_cliente = Convert.ToInt32(txtClienteId.Text);
-               
-              
+
+
 
 
                 //if (factura.cod_tipo_factura == 2) //si es nota de credito
@@ -1348,11 +1335,11 @@ namespace Modulo_Administracion.Vista
                 //else
                 //{
 
-                  
-                    factura.precio_final = Convert.ToDecimal(lblImporteTotal.Text);
-                    factura.precio_final_con_pago_mayor_a_30_dias = Convert.ToDecimal(lblImportePagoMayor30Dias.Text);
-                    factura.precio_final_con_pago_menor_a_7_dias = Convert.ToDecimal(lblImportePagoMenor7Dias.Text);
-                    factura.precio_final_con_pago_menor_a_30_dias = Convert.ToDecimal(lblImportePagoMenor30Dias.Text);
+
+                factura.precio_final = Convert.ToDecimal(lblImporteTotal.Text);
+                factura.precio_final_con_pago_mayor_a_30_dias = Convert.ToDecimal(lblImportePagoMayor30Dias.Text);
+                factura.precio_final_con_pago_menor_a_7_dias = Convert.ToDecimal(lblImportePagoMenor7Dias.Text);
+                factura.precio_final_con_pago_menor_a_30_dias = Convert.ToDecimal(lblImportePagoMenor30Dias.Text);
                 //}
 
                 if (tipo_grabacion == 1)
@@ -1416,7 +1403,7 @@ namespace Modulo_Administracion.Vista
                     factura_detalle.precio_lista_x_coeficiente = Convert.ToDecimal(row.Cells["col_precio_lista_x_coeficiente"].Value.ToString());
 
                     //si el tipo de grabacion es 2-> "GRABAR Y GENERAR PDF" , 3-> "GRABAR , GENERAR PDF E IMPRIMIR" , la factura se frizza
-                    if (tipo_grabacion == 2 || tipo_grabacion == 3) 
+                    if (tipo_grabacion == 2 || tipo_grabacion == 3)
                     {
                         factura_detalle.id_articulo = null;
                     }
@@ -1485,7 +1472,7 @@ namespace Modulo_Administracion.Vista
 
                 if (dgvFactura.SelectedRows.Count == 1)
                 {
-                   
+
 
                     DataGridViewRow item = dgvFactura.SelectedRows[0];
 
@@ -1514,7 +1501,7 @@ namespace Modulo_Administracion.Vista
                     }
                     else //sino remuevo el item de la grilla
                     {
-                        
+
                         foreach (DataGridViewCell cell in item.Cells)
                         {
                             if (cell.ColumnIndex != index_columna_col_iva_aumento)
@@ -1525,7 +1512,7 @@ namespace Modulo_Administracion.Vista
                             {
                                 cell.Value = 10.5M;
                             }
-                            
+
                         }
                         //dgvFactura.Rows.RemoveAt(item.Index);
                     }
@@ -1587,13 +1574,13 @@ namespace Modulo_Administracion.Vista
                 frmBuscar frm = new frmBuscar();
                 frm.Text = "Buscar Cliente";
                 frm.btnNuevo.Enabled = false;
-             
+
 
                 DataSet ds = logica_cliente.buscar_clientes(razon_social);
 
                 if (ds.Tables[0].Rows.Count > 0)
                 {
-                    frm.IniciarForm(ds.Tables[0],1);
+                    frm.IniciarForm(ds.Tables[0], 1);
                 }
                 else
                 {
@@ -1629,7 +1616,7 @@ namespace Modulo_Administracion.Vista
                     }
                 }
 
-                
+
 
 
 
@@ -1903,9 +1890,9 @@ namespace Modulo_Administracion.Vista
                 //}
                 //else
                 //{
-                    decimal valor = Logica_Funciones_Generales.monto_mas_menos_un_porcentaje(Convert.ToInt32(txtPagoMenor7DiasPorcentaje1.Text), Convert.ToDecimal(lblImportePagoMayor30Dias.Text), 2); //aplico el primer porcentaje al importe de lblImportePagoMayor30Dias
-                    valor = Logica_Funciones_Generales.monto_mas_menos_un_porcentaje(Convert.ToInt32(txtPagoMenor7DiasPorcentaje2.Text), valor, 2); //aplico el segundo porcentaje al valor devuelvo de la linea de arriba
-                    lblImportePagoMenor7Dias.Text = valor.ToString("N2");
+                decimal valor = Logica_Funciones_Generales.monto_mas_menos_un_porcentaje(Convert.ToInt32(txtPagoMenor7DiasPorcentaje1.Text), Convert.ToDecimal(lblImportePagoMayor30Dias.Text), 2); //aplico el primer porcentaje al importe de lblImportePagoMayor30Dias
+                valor = Logica_Funciones_Generales.monto_mas_menos_un_porcentaje(Convert.ToInt32(txtPagoMenor7DiasPorcentaje2.Text), valor, 2); //aplico el segundo porcentaje al valor devuelvo de la linea de arriba
+                lblImportePagoMenor7Dias.Text = valor.ToString("N2");
                 //}
 
             }
@@ -1925,8 +1912,8 @@ namespace Modulo_Administracion.Vista
                 //}
                 //else
                 //{
-                    decimal valor = Logica_Funciones_Generales.monto_mas_menos_un_porcentaje(Convert.ToInt32(txtPagoMenor30DiasPorcentaje.Text), Convert.ToDecimal(lblImportePagoMayor30Dias.Text), 2); //aplico el primer porcentaje al importe de lblImportePagoMayor30Dias
-                    lblImportePagoMenor30Dias.Text = valor.ToString("N2");
+                decimal valor = Logica_Funciones_Generales.monto_mas_menos_un_porcentaje(Convert.ToInt32(txtPagoMenor30DiasPorcentaje.Text), Convert.ToDecimal(lblImportePagoMayor30Dias.Text), 2); //aplico el primer porcentaje al importe de lblImportePagoMayor30Dias
+                lblImportePagoMenor30Dias.Text = valor.ToString("N2");
                 //}
             }
             catch (Exception ex)
@@ -1945,8 +1932,8 @@ namespace Modulo_Administracion.Vista
                 //}
                 //else
                 //{
-                    decimal valor = Logica_Funciones_Generales.monto_mas_menos_un_porcentaje(Convert.ToInt32(txtPagoMayor30DiasPorcentaje.Text), Convert.ToDecimal(lblImporteTotal.Text), 1); //aplico el primer porcentaje al total
-                    lblImportePagoMayor30Dias.Text = valor.ToString("N2");
+                decimal valor = Logica_Funciones_Generales.monto_mas_menos_un_porcentaje(Convert.ToInt32(txtPagoMayor30DiasPorcentaje.Text), Convert.ToDecimal(lblImporteTotal.Text), 1); //aplico el primer porcentaje al total
+                lblImportePagoMayor30Dias.Text = valor.ToString("N2");
                 //}
 
             }
@@ -1973,7 +1960,7 @@ namespace Modulo_Administracion.Vista
                 }
 
                 return _cantidad_de_veces_que_aparece_articulo_en_grilla;
-               
+
             }
             catch (Exception ex)
             {
@@ -1981,7 +1968,7 @@ namespace Modulo_Administracion.Vista
             }
         }
 
-    
+
 
 
         private void dgvFactura_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
@@ -2058,18 +2045,18 @@ namespace Modulo_Administracion.Vista
 
                     string p = iva_aumento;
                     string p2 = p.Remove(p.Length - 1);
-                    string final = p2.Replace(".",",");
-                    iva_aumento_decimal = Convert.ToDecimal(final);                
+                    string final = p2.Replace(".", ",");
+                    iva_aumento_decimal = Convert.ToDecimal(final);
                 }
-               
+
                 ganancia = (precio_lista_x_coeficiente * iva_aumento_decimal) / 100;
-                ganancia = Math.Round(ganancia, nro_redondeo , MidpointRounding.AwayFromZero);
+                ganancia = Math.Round(ganancia, nro_redondeo, MidpointRounding.AwayFromZero);
 
                 if (dgvFactura.Rows[e.RowIndex].Cells["col_precio"].Value != null && dgvFactura.Rows[e.RowIndex].Cells["col_precio"].Value != "")
                     precio = Convert.ToDecimal(dgvFactura.Rows[e.RowIndex].Cells["col_precio"].Value);
 
                 importe = precio * cantidad;
-                importe = Math.Round(importe, nro_redondeo , MidpointRounding.AwayFromZero);
+                importe = Math.Round(importe, nro_redondeo, MidpointRounding.AwayFromZero);
 
                 if (e.ColumnIndex == 1 || e.ColumnIndex == 2) //si la celda de la que salgo es de la columna 1 o 2 ... osea CODIGO o MARCA
                 {
@@ -2083,18 +2070,18 @@ namespace Modulo_Administracion.Vista
                         {
                             descripcion = dt.Rows[0]["descripcion_articulo"].ToString();
                             coeficiente = Convert.ToDecimal(dt.Rows[0]["coeficiente"].ToString()); //NO TENGO QUE REDONDEAR NUNCA
-                            
+
                             precio_lista_x_coeficiente = Convert.ToDecimal(Convert.ToDecimal(dt.Rows[0]["precio_lista"].ToString()) * coeficiente);
-                            precio_lista_x_coeficiente = Math.Round(precio_lista_x_coeficiente, nro_redondeo , MidpointRounding.AwayFromZero);
-                            
+                            precio_lista_x_coeficiente = Math.Round(precio_lista_x_coeficiente, nro_redondeo, MidpointRounding.AwayFromZero);
+
                             ganancia = (precio_lista_x_coeficiente * iva_aumento_decimal) / 100;
-                            ganancia = Math.Round(ganancia, nro_redondeo , MidpointRounding.AwayFromZero);
-                            
+                            ganancia = Math.Round(ganancia, nro_redondeo, MidpointRounding.AwayFromZero);
+
                             precio = Convert.ToDecimal(precio_lista_x_coeficiente + ganancia);
-                            precio = Math.Round(precio, nro_redondeo , MidpointRounding.AwayFromZero);
+                            precio = Math.Round(precio, nro_redondeo, MidpointRounding.AwayFromZero);
 
                             importe = Convert.ToDecimal(precio * cantidad);
-                            importe = Math.Round(importe, nro_redondeo , MidpointRounding.AwayFromZero);
+                            importe = Math.Round(importe, nro_redondeo, MidpointRounding.AwayFromZero);
 
                             id_articulo = dt.Rows[0]["id_articulo"].ToString();
                         }
@@ -2132,7 +2119,7 @@ namespace Modulo_Administracion.Vista
                     if (dgvFactura.Tag != dgvFactura.CurrentCell.Value) //SI LO QUE DECIA LA CELDA ES DISTINTO A LO QUE ESTOY PONIENDO....EL ARTICULO NO EXISTE
                     {
                         id_articulo = "-999";
-                    } 
+                    }
                 }
                 else if (e.ColumnIndex == 4) //si salgo de PRECIO
                 {
@@ -2153,8 +2140,8 @@ namespace Modulo_Administracion.Vista
                             precio = Convert.ToDecimal(dgvFactura.Rows[e.RowIndex].Cells["col_precio"].Value);
 
                         precio_lista_x_coeficiente = (precio / ((iva_aumento_decimal / 100) + 1));
-                        precio_lista_x_coeficiente = Math.Round(precio_lista_x_coeficiente, nro_redondeo , MidpointRounding.AwayFromZero);
-                        
+                        precio_lista_x_coeficiente = Math.Round(precio_lista_x_coeficiente, nro_redondeo, MidpointRounding.AwayFromZero);
+
                         id_articulo = "-999";
                     }
                 }
@@ -2166,10 +2153,10 @@ namespace Modulo_Administracion.Vista
                     }
 
                     precio = ganancia + precio_lista_x_coeficiente;
-                    precio = Math.Round(precio, nro_redondeo , MidpointRounding.AwayFromZero);
+                    precio = Math.Round(precio, nro_redondeo, MidpointRounding.AwayFromZero);
 
                     importe = precio * cantidad;
-                    importe = Math.Round(importe, nro_redondeo , MidpointRounding.AwayFromZero);
+                    importe = Math.Round(importe, nro_redondeo, MidpointRounding.AwayFromZero);
                 }
                 else if (e.ColumnIndex == 7) //si salgo de IVA_AUMENTO
                 {
@@ -2184,13 +2171,13 @@ namespace Modulo_Administracion.Vista
                     }
 
                     ganancia = (precio_lista_x_coeficiente * iva_aumento_decimal) / 100;
-                    ganancia = Math.Round(ganancia, nro_redondeo , MidpointRounding.AwayFromZero);
+                    ganancia = Math.Round(ganancia, nro_redondeo, MidpointRounding.AwayFromZero);
 
                     precio = ganancia + precio_lista_x_coeficiente;
-                    precio = Math.Round(precio, nro_redondeo , MidpointRounding.AwayFromZero);
+                    precio = Math.Round(precio, nro_redondeo, MidpointRounding.AwayFromZero);
 
                     importe = precio * cantidad;
-                    importe = Math.Round(importe, nro_redondeo , MidpointRounding.AwayFromZero);
+                    importe = Math.Round(importe, nro_redondeo, MidpointRounding.AwayFromZero);
                 }
 
 
@@ -2246,7 +2233,7 @@ namespace Modulo_Administracion.Vista
                         col_precio_lista_x_coeficiente != "" &&
                         col_iva_aumento != "" &&
                         col_id_articulo != ""
-                        //col_id_factura_detalle != ""
+                    //col_id_factura_detalle != ""
                     )
                     {
                         cantidad = cantidad + 1;
@@ -2290,7 +2277,7 @@ namespace Modulo_Administracion.Vista
                         col_precio_lista_x_coeficiente != "" &&
                         col_iva_aumento != "" &&
                         col_id_articulo != ""
-                        //col_id_factura_detalle != ""
+                    //col_id_factura_detalle != ""
                     )
                     {
                         fila = i;
@@ -2323,10 +2310,10 @@ namespace Modulo_Administracion.Vista
 
         private void itemDropDownButton_Click(object sender, EventArgs e)
         {
-           
+
             try
             {
-              
+
                 if (((DXMenuItem)sender).Caption == opcion_1_dropDownButton)
                 {
                     grabar(1);
@@ -2339,14 +2326,14 @@ namespace Modulo_Administracion.Vista
                 {
                     grabar(3);
                 }
-               
+
             }
             catch (Exception ex)
             {
-               
+
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
+
         }
 
         private void btnGrabar_Click(object sender, EventArgs e)
@@ -2382,11 +2369,11 @@ namespace Modulo_Administracion.Vista
                 }
 
 
-                
+
 
                 if (dgvFactura.SelectedRows.Count > 0)
                 {
-                   
+
                     foreach (DataGridViewRow row in dgvFactura.SelectedRows)
                     {
 
@@ -2409,27 +2396,27 @@ namespace Modulo_Administracion.Vista
                         porcentaje = Convert.ToDecimal(txtPorcentaje.Text);
 
                         aumento_descuento = (precio_lista_x_coeficiente * porcentaje) / 100;
-                        aumento_descuento = Math.Round(aumento_descuento, nro_redondeo , MidpointRounding.AwayFromZero);
+                        aumento_descuento = Math.Round(aumento_descuento, nro_redondeo, MidpointRounding.AwayFromZero);
 
                         if (txtAumento_Descuento.Text == "+")
                         {
                             precio_lista_x_coeficiente = precio_lista_x_coeficiente + aumento_descuento;
-                            precio_lista_x_coeficiente = Math.Round(precio_lista_x_coeficiente, nro_redondeo , MidpointRounding.AwayFromZero);
+                            precio_lista_x_coeficiente = Math.Round(precio_lista_x_coeficiente, nro_redondeo, MidpointRounding.AwayFromZero);
                         }
                         else
                         {
                             precio_lista_x_coeficiente = precio_lista_x_coeficiente - aumento_descuento;
-                            precio_lista_x_coeficiente = Math.Round(precio_lista_x_coeficiente, nro_redondeo , MidpointRounding.AwayFromZero);
+                            precio_lista_x_coeficiente = Math.Round(precio_lista_x_coeficiente, nro_redondeo, MidpointRounding.AwayFromZero);
                         }
 
                         ganancia = (precio_lista_x_coeficiente * iva_aumento_decimal) / 100;
-                        ganancia = Math.Round(ganancia, nro_redondeo , MidpointRounding.AwayFromZero);
+                        ganancia = Math.Round(ganancia, nro_redondeo, MidpointRounding.AwayFromZero);
 
                         precio = precio_lista_x_coeficiente + ganancia;
-                        precio = Math.Round(precio, nro_redondeo , MidpointRounding.AwayFromZero);
+                        precio = Math.Round(precio, nro_redondeo, MidpointRounding.AwayFromZero);
 
                         importe = precio * cantidad;
-                        importe = Math.Round(importe, nro_redondeo , MidpointRounding.AwayFromZero);
+                        importe = Math.Round(importe, nro_redondeo, MidpointRounding.AwayFromZero);
 
                         row.Cells["col_precio"].Value = precio == 0 ? "" : precio.ToString("N2");
                         row.Cells["col_importe"].Value = importe == 0 ? "" : importe.ToString("N2");
@@ -2500,7 +2487,7 @@ namespace Modulo_Administracion.Vista
             if (e.KeyChar == '-' || char.IsControl(e.KeyChar) || e.KeyChar == '+')
             {
                 e.Handled = false;
-            }  
+            }
             else
             {
                 e.Handled = true;
@@ -2537,7 +2524,7 @@ namespace Modulo_Administracion.Vista
             }
         }
 
-       
+
 
         private void frmFacturaAFIP_FormClosing(object sender, FormClosingEventArgs e)
         {

@@ -3,9 +3,6 @@ using Modulo_Administracion.Clases;
 using Modulo_Administracion.Logica;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Data.SqlClient;
 using System.Windows.Forms;
 
 
@@ -27,22 +24,22 @@ namespace Modulo_Administracion
 
             try
             {
-                
 
-                    frmDireccion frm = new frmDireccion();
-                    frm.InicioForm(proveedor, null, 1);
-                    var result = frm.ShowDialog();
 
-                    if (result == DialogResult.OK)
+                frmDireccion frm = new frmDireccion();
+                frm.InicioForm(proveedor, null, 1);
+                var result = frm.ShowDialog();
+
+                if (result == DialogResult.OK)
+                {
+                    if (proveedor.proveedor_dir == null)
                     {
-                        if (proveedor.proveedor_dir == null)
-                        {
-                            proveedor.proveedor_dir = new List<proveedor_dir>();
-                        }
-
-                        proveedor.proveedor_dir = frm.lista_aux_proveedor;
+                        proveedor.proveedor_dir = new List<proveedor_dir>();
                     }
-               
+
+                    proveedor.proveedor_dir = frm.lista_aux_proveedor;
+                }
+
             }
             catch (Exception ex)
             {
@@ -54,20 +51,20 @@ namespace Modulo_Administracion
         {
             try
             {
-                    frmDatos frm = new frmDatos();
-                    frm.InicioForm(proveedor, null, 1);
-                    var result = frm.ShowDialog();
+                frmDatos frm = new frmDatos();
+                frm.InicioForm(proveedor, null, 1);
+                var result = frm.ShowDialog();
 
-                    if (result == DialogResult.OK)
+                if (result == DialogResult.OK)
+                {
+                    if (proveedor.proveedor_datos == null)
                     {
-                        if (proveedor.proveedor_datos == null)
-                        {
-                            proveedor.proveedor_datos = new List<proveedor_datos>();
-                        }
-
-                        proveedor.proveedor_datos = frm.lista_aux_proveedor;
+                        proveedor.proveedor_datos = new List<proveedor_datos>();
                     }
-               
+
+                    proveedor.proveedor_datos = frm.lista_aux_proveedor;
+                }
+
             }
             catch (Exception ex)
             {
@@ -176,7 +173,7 @@ namespace Modulo_Administracion
                             //esto sirve para ordenar las columnas con click del usuario
                             //SortableBindingList<proveedor> order = new SortableBindingList<proveedor>(logica_proveedor.buscar_proveedores());
                             dgvProveedor.DataSource = logica_proveedor.buscar_proveedores();
-                            
+
                             //seteo columnas
                             seteoColumnasDataGridView();
 
@@ -195,7 +192,7 @@ namespace Modulo_Administracion
 
                             //modifico  enabled - visible - text 
                             btnProveedor_Direccion.Enabled = true;
-                            btnProveedor_Datos.Enabled = true; 
+                            btnProveedor_Datos.Enabled = true;
 
                             btnNuevo.Enabled = false;
                             btnAgregar.Visible = true;
@@ -260,7 +257,7 @@ namespace Modulo_Administracion
         {
             try
             {
-                
+
 
                 dgvProveedor.Columns[0].Width = 100;
                 dgvProveedor.Columns[0].HeaderText = "Id Proveedor";
@@ -330,9 +327,9 @@ namespace Modulo_Administracion
             }
         }
 
-     
 
-   
+
+
 
 
         private void btnAgregar_Click(object sender, EventArgs e)
@@ -359,7 +356,7 @@ namespace Modulo_Administracion
                     }
 
                     MessageBox.Show("Grabación Exitosa", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                   
+
                 }
                 else if (Accion == 2) //Modificacion
                 {
@@ -376,7 +373,7 @@ namespace Modulo_Administracion
                     }
 
                     MessageBox.Show("Modificación exitosa", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    
+
                 }
                 proveedor = null;
                 iniciar(Program.Inicio);
@@ -500,7 +497,7 @@ namespace Modulo_Administracion
         {
             try
             {
-                
+
                 proveedor.razon_social = txtRazonSocial.Text;
                 proveedor.id_condicion_ante_iva = (Convert.ToInt32(cbCondicionIVA.SelectedValue));
                 proveedor.id_condicion_pago = (Convert.ToInt32(cbCondicionPago.SelectedValue));
@@ -581,18 +578,18 @@ namespace Modulo_Administracion
 
         private void frmProveedor_Load(object sender, EventArgs e)
         {
-        
+
             try
             {
-              
+
                 iniciar(Program.Inicio);
-             
+
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-           
+
         }
 
         private void txtRazonSocial_Leave(object sender, EventArgs e)

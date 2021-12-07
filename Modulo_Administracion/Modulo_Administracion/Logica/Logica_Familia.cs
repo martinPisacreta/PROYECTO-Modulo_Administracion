@@ -1,27 +1,24 @@
-﻿using System;
+﻿using Modulo_Administracion.Clases;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Data.SqlClient;
 using System.Data;
-using System.Configuration;
-using Modulo_Administracion.Clases;
 using System.Data.Entity;
+using System.Linq;
 
 namespace Modulo_Administracion.Logica
 {
 
-    
+
     public class Logica_Familia
     {
-        
+
         public bool alta_familia(familia familia)
         {
             Modulo_AdministracionContext db = new Modulo_AdministracionContext();
             bool bandera = false;
             using (DbContextTransaction dbContextTransaction = db.Database.BeginTransaction())
             {
-                
+
                 try
                 {
 
@@ -31,13 +28,13 @@ namespace Modulo_Administracion.Logica
                     int cantidad = db.familia.Count();
                     if (cantidad == 0)
                     {
-                        familia_a_insertar.id_tabla_familia =  1;
-                        familia_a_insertar.id_familia =  1;
+                        familia_a_insertar.id_tabla_familia = 1;
+                        familia_a_insertar.id_familia = 1;
                     }
                     else
                     {
                         familia_a_insertar.id_tabla_familia = db.familia.Max(f => f.id_tabla_familia) + 1;
-                        familia_a_insertar.id_familia = db.familia.Max(f =>  f.id_familia) + 1;
+                        familia_a_insertar.id_familia = db.familia.Max(f => f.id_familia) + 1;
                     }
                     familia_a_insertar.id_tabla_marca = familia.id_tabla_marca;
                     familia_a_insertar.txt_desc_familia = familia.txt_desc_familia;
@@ -75,11 +72,11 @@ namespace Modulo_Administracion.Logica
             }
         }
 
-        public bool modificar_eliminar_familia(familia familia,decimal coeficiente,int accion)
+        public bool modificar_eliminar_familia(familia familia, decimal coeficiente, int accion)
         {
             Logica_Articulo logica_articulo = new Logica_Articulo();
 
-           
+
 
             Modulo_AdministracionContext db = new Modulo_AdministracionContext();
             using (DbContextTransaction dbContextTransaction = db.Database.BeginTransaction())
@@ -88,12 +85,12 @@ namespace Modulo_Administracion.Logica
                 try
                 {
                     bool bandera = false;
-           
+
                     familia familia_db = db.familia.FirstOrDefault(f => f.id_tabla_familia == familia.id_tabla_familia);
 
                     familia_db.id_tabla_familia = familia.id_tabla_familia;
-                   
-                
+
+
                     if (accion == 1) //si es modificacion...
                     {
                         familia_db.id_familia = familia.id_familia;
@@ -117,7 +114,7 @@ namespace Modulo_Administracion.Logica
                         familia_db.algoritmo_10 = familia.algoritmo_10;
 
 
-                      
+
 
                     }
                     else //si es baja -> doy de baja la familia y a su vez : articulos de esa familia
@@ -131,12 +128,12 @@ namespace Modulo_Administracion.Logica
                         }
                     }
 
-                   
 
-                    
 
-              
-                   
+
+
+
+
 
 
                     db.SaveChanges();
@@ -160,7 +157,7 @@ namespace Modulo_Administracion.Logica
 
         public decimal precio_coeficiente(int tipo_de_coeficiente, decimal algoritmo1, decimal algoritmo2, decimal algoritmo3, decimal algoritmo4, decimal algoritmo5, decimal algoritmo6, decimal algoritmo7, decimal algoritmo8, decimal algoritmo9)
         {
-            
+
             try
             {
                 decimal precio_coeficiente = 0.0000M;
@@ -225,19 +222,19 @@ namespace Modulo_Administracion.Logica
             {
                 throw ex;
             }
-           
+
         }
 
         public bool dar_de_baja_familias_por_marca(int id_tabla_marca, Modulo_AdministracionContext db) //doy de baja las familias de una marca 
         {
- 
+
             bool bandera = false;
             try
             {
-              
-                List<familia> lista_familias = (    from f in db.familia
-                                                    where f.id_tabla_marca == id_tabla_marca
-                                                    select f).ToList();
+
+                List<familia> lista_familias = (from f in db.familia
+                                                where f.id_tabla_marca == id_tabla_marca
+                                                select f).ToList();
 
                 foreach (familia f in lista_familias)
                 {
@@ -250,9 +247,9 @@ namespace Modulo_Administracion.Logica
                     f.sn_activo = 0;
                     f.accion = "ELIMINACION";
                     f.fec_ult_modif = DateTime.Now;
-                   
 
-                   
+
+
                 }
 
                 db.SaveChanges();
@@ -263,7 +260,7 @@ namespace Modulo_Administracion.Logica
             {
                 throw ex;
             }
-           
+
         }
 
 
@@ -272,18 +269,18 @@ namespace Modulo_Administracion.Logica
             Modulo_AdministracionContext db = new Modulo_AdministracionContext();
             try
             {
-         
+
                 var familias = (from f in db.familia
-                                          join m in db.marca on f.id_tabla_marca equals m.id_tabla_marca
-                                          join p in db.proveedor on m.id_proveedor equals p.id_proveedor
-                                          where f.id_tabla_marca == id_tabla_marca && f.sn_activo == -1
-                                          select new
-                                          {
-                                              f.id_tabla_familia,
-                                              f.txt_desc_familia,
-                                              m.txt_desc_marca,
-                                              p.razon_social
-                                          }).ToList();
+                                join m in db.marca on f.id_tabla_marca equals m.id_tabla_marca
+                                join p in db.proveedor on m.id_proveedor equals p.id_proveedor
+                                where f.id_tabla_marca == id_tabla_marca && f.sn_activo == -1
+                                select new
+                                {
+                                    f.id_tabla_familia,
+                                    f.txt_desc_familia,
+                                    m.txt_desc_marca,
+                                    p.razon_social
+                                }).ToList();
 
                 return familias;
             }
@@ -304,16 +301,16 @@ namespace Modulo_Administracion.Logica
             {
 
                 var familias = (from f in db.familia
-                                          join m in db.marca on f.id_tabla_marca equals m.id_tabla_marca
-                                          join p in db.proveedor on m.id_proveedor equals p.id_proveedor
-                                          where  f.sn_activo == -1
-                                          select new
-                                          {
-                                              f.id_tabla_familia,
-                                              f.txt_desc_familia,
-                                              m.txt_desc_marca,
-                                              p.razon_social
-                                          }).ToList();
+                                join m in db.marca on f.id_tabla_marca equals m.id_tabla_marca
+                                join p in db.proveedor on m.id_proveedor equals p.id_proveedor
+                                where f.sn_activo == -1
+                                select new
+                                {
+                                    f.id_tabla_familia,
+                                    f.txt_desc_familia,
+                                    m.txt_desc_marca,
+                                    p.razon_social
+                                }).ToList();
 
                 return familias;
             }

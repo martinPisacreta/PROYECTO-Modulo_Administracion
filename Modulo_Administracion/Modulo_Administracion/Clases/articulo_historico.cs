@@ -1,10 +1,8 @@
 namespace Modulo_Administracion.Clases
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
     public partial class articulo_historico
     {
@@ -24,6 +22,7 @@ namespace Modulo_Administracion.Clases
         [StringLength(100)]
         public string codigo_articulo { get; set; }
 
+        [StringLength(400)]
         public string descripcion_articulo { get; set; }
 
         [Column(TypeName = "numeric")]
@@ -33,7 +32,7 @@ namespace Modulo_Administracion.Clases
 
         public int? sn_oferta { get; set; }
 
-        [StringLength(200)]
+        [StringLength(400)]
         public string path_img { get; set; }
 
         public DateTime? fecha_ult_modif { get; set; }

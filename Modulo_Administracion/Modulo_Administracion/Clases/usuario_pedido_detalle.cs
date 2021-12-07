@@ -1,10 +1,7 @@
 namespace Modulo_Administracion.Clases
 {
-    using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
     public partial class usuario_pedido_detalle
     {
@@ -17,7 +14,7 @@ namespace Modulo_Administracion.Clases
         [StringLength(100)]
         public string codigo_articulo { get; set; }
 
-        [Required]
+        [StringLength(400)]
         public string descripcion_articulo { get; set; }
 
         [Required]

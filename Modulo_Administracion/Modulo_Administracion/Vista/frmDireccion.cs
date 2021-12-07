@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Security;
-using System.Text;
-using Microsoft.VisualBasic;
-using System.Windows.Forms;
-using Modulo_Administracion.Clases;
+﻿using Modulo_Administracion.Clases;
 using Modulo_Administracion.Logica;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace Modulo_Administracion
 {
@@ -27,7 +19,7 @@ namespace Modulo_Administracion
 
         proveedor_dir proveedor_direccion = null;
         cliente_dir cliente_direccion = null;
-      
+
         public List<proveedor_dir> lista_aux_proveedor = new List<proveedor_dir>();
         public List<cliente_dir> lista_aux_cliente = new List<cliente_dir>();
 
@@ -49,12 +41,12 @@ namespace Modulo_Administracion
         }
 
 
-        public void InicioForm(proveedor _proveedor, cliente _cliente,int _tipo)
+        public void InicioForm(proveedor _proveedor, cliente _cliente, int _tipo)
         {
             try
             {
                 tipo = _tipo;
-                
+
                 if (tipo == 1)
                 {
                     proveedor = _proveedor;
@@ -63,7 +55,7 @@ namespace Modulo_Administracion
                     if (!(lista_obj_direccion_proveedor == null))
                     {
                         lista_aux_proveedor.AddRange(lista_obj_direccion_proveedor);
-                        CargarGrilla(lista_aux_proveedor,null);
+                        CargarGrilla(lista_aux_proveedor, null);
                     }
                 }
                 else if (tipo == 2)
@@ -74,13 +66,13 @@ namespace Modulo_Administracion
                     if (!(lista_obj_direccion_cliente == null))
                     {
                         lista_aux_cliente.AddRange(lista_obj_direccion_cliente);
-                        CargarGrilla(null,lista_aux_cliente);
+                        CargarGrilla(null, lista_aux_cliente);
                     }
                 }
-                
+
                 Logica_Funciones_Generales.CargarComboBox("ttipo_dir", cbTipoDir, "txt_desc", "1=1", "cod_tipo_dir", "cod_tipo_dir");
                 Logica_Funciones_Generales.CargarComboBox("ttipo_calle", cbTipoCalle, "txt_desc", "1=1", "cod_tipo_calle", "cod_tipo_calle");
-                
+
                 cbTipoDir.SelectedValue = 1;
 
             }
@@ -375,21 +367,21 @@ namespace Modulo_Administracion
 
                 if (tipo == 1)
                 {
-                    CargarGrilla(lista_aux_proveedor,null);
+                    CargarGrilla(lista_aux_proveedor, null);
                 }
                 else if (tipo == 2)
                 {
                     CargarGrilla(null, lista_aux_cliente);
                 }
 
-               
+
                 ConfigurarForm(Program.Inicio);
 
             }
             catch (Exception ex)
             {
-                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-              
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
             }
             finally
             {
@@ -401,7 +393,7 @@ namespace Modulo_Administracion
             Cursor.Current = Cursors.WaitCursor;
             try
             {
-                
+
                 if (txtCalle.Text == "")
                 {
                     txtCalle.Focus();
@@ -464,7 +456,7 @@ namespace Modulo_Administracion
                     proveedor_direccion.txt_apto = txtApto.Text;
 
                 }
-                else if(tipo == 2)
+                else if (tipo == 2)
                 {
                     ttipo_dir ttipo_dir = new ttipo_dir();
                     ttipo_dir.cod_tipo_dir = (Convert.ToInt32(cbTipoDir.SelectedValue));
@@ -498,9 +490,9 @@ namespace Modulo_Administracion
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-      
 
-        private void CargarGrilla(List<proveedor_dir> _lista_aux_proveedor,List<cliente_dir> _lista_aux_cliente)
+
+        private void CargarGrilla(List<proveedor_dir> _lista_aux_proveedor, List<cliente_dir> _lista_aux_cliente)
         {
             try
             {
@@ -584,7 +576,7 @@ namespace Modulo_Administracion
                 {
                     foreach (proveedor_dir Dir in lista_aux_proveedor)
                     {
-                        if (Dir.cod_tipo_dir == (Convert.ToInt32(cbTipoDir.SelectedValue)))    
+                        if (Dir.cod_tipo_dir == (Convert.ToInt32(cbTipoDir.SelectedValue)))
                             indice = lista_aux_proveedor.IndexOf(Dir);
                     }
 
@@ -717,14 +709,14 @@ namespace Modulo_Administracion
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-       
+
         #region calle - pais - provincia - localidad
 
         private void Buscar(List<string> Valores, TextBox txt, object sender) // Busco calle, pais, dpto, y localidad
         {
             try // Este metodo me busca segun el textbox q lo llame
             {
-               
+
                 frmBuscar frm = new frmBuscar();
                 frm.Text = "Buscar Dirección";
                 frm.btnNuevo.Enabled = false;
@@ -737,11 +729,11 @@ namespace Modulo_Administracion
                             frm.Text = "Buscar Calle";
                             if (tipo == 1)
                             {
-                                frm.IniciarForm(logica_proveedor_direccion.buscar_calle(Valores).Tables[0],2);
+                                frm.IniciarForm(logica_proveedor_direccion.buscar_calle(Valores).Tables[0], 2);
                             }
                             else if (tipo == 2)
                             {
-                                frm.IniciarForm(logica_cliente_direccion.buscar_calle(Valores).Tables[0],2);
+                                frm.IniciarForm(logica_cliente_direccion.buscar_calle(Valores).Tables[0], 2);
                             }
                             break;
                         }
@@ -751,11 +743,11 @@ namespace Modulo_Administracion
                             frm.Text = "Buscar Provincia";
                             if (tipo == 1)
                             {
-                                frm.IniciarForm(logica_proveedor_direccion.buscar_provincia(Valores).Tables[0],2);
+                                frm.IniciarForm(logica_proveedor_direccion.buscar_provincia(Valores).Tables[0], 2);
                             }
                             else if (tipo == 2)
                             {
-                                frm.IniciarForm(logica_cliente_direccion.buscar_provincia(Valores).Tables[0],2);
+                                frm.IniciarForm(logica_cliente_direccion.buscar_provincia(Valores).Tables[0], 2);
                             }
                             break;
                         }
@@ -765,11 +757,11 @@ namespace Modulo_Administracion
                             frm.Text = "Buscar Pais";
                             if (tipo == 1)
                             {
-                                frm.IniciarForm(logica_proveedor_direccion.buscar_pais(Valores).Tables[0],2);
+                                frm.IniciarForm(logica_proveedor_direccion.buscar_pais(Valores).Tables[0], 2);
                             }
                             else if (tipo == 2)
                             {
-                                frm.IniciarForm(logica_cliente_direccion.buscar_pais(Valores).Tables[0],2);
+                                frm.IniciarForm(logica_cliente_direccion.buscar_pais(Valores).Tables[0], 2);
                             }
                             break;
                         }
@@ -779,11 +771,11 @@ namespace Modulo_Administracion
                             frm.Text = "Buscar Municipio";
                             if (tipo == 1)
                             {
-                                frm.IniciarForm(logica_proveedor_direccion.buscar_municipio(Valores).Tables[0],2);
+                                frm.IniciarForm(logica_proveedor_direccion.buscar_municipio(Valores).Tables[0], 2);
                             }
                             else if (tipo == 2)
                             {
-                                frm.IniciarForm(logica_cliente_direccion.buscar_municipio(Valores).Tables[0],2);
+                                frm.IniciarForm(logica_cliente_direccion.buscar_municipio(Valores).Tables[0], 2);
                             }
                             break;
                         }
@@ -802,7 +794,7 @@ namespace Modulo_Administracion
                                     proveedor_direccion.txt_direccion = Convert.ToString(frm.dgvResultados.SelectedRows[0].Cells[1].Value);
 
                                     txt.Text = Convert.ToString(frm.dgvResultados.SelectedRows[0].Cells[1].Value);
-                                  
+
                                 }
                                 else if (tipo == 2)
                                 {
@@ -810,7 +802,7 @@ namespace Modulo_Administracion
                                     cliente_direccion.txt_direccion = Convert.ToString(frm.dgvResultados.SelectedRows[0].Cells[1].Value);
 
                                     txt.Text = Convert.ToString(frm.dgvResultados.SelectedRows[0].Cells[1].Value);
-                                    
+
                                 }
                                 break;
 
@@ -825,7 +817,7 @@ namespace Modulo_Administracion
                                     proveedor_direccion.cod_provincia = Convert.ToInt32(frm.dgvResultados.SelectedRows[0].Cells[0].Value);
                                     proveedor_direccion.tprovincia.txt_desc = Convert.ToString(frm.dgvResultados.SelectedRows[0].Cells[1].Value);
                                     txt.Text = Convert.ToString(frm.dgvResultados.SelectedRows[0].Cells[1].Value);
-                                    
+
                                 }
                                 else if (tipo == 2)
                                 {
@@ -833,7 +825,7 @@ namespace Modulo_Administracion
                                     cliente_direccion.cod_provincia = Convert.ToInt32(frm.dgvResultados.SelectedRows[0].Cells[0].Value);
                                     cliente_direccion.tprovincia.txt_desc = Convert.ToString(frm.dgvResultados.SelectedRows[0].Cells[1].Value);
                                     txt.Text = Convert.ToString(frm.dgvResultados.SelectedRows[0].Cells[1].Value);
-                                    
+
                                 }
                                 break;
 
@@ -848,7 +840,7 @@ namespace Modulo_Administracion
                                     proveedor_direccion.cod_pais = Convert.ToInt32(frm.dgvResultados.SelectedRows[0].Cells[0].Value);
                                     proveedor_direccion.tpais.txt_desc = Convert.ToString(frm.dgvResultados.SelectedRows[0].Cells[1].Value);
                                     txt.Text = Convert.ToString(frm.dgvResultados.SelectedRows[0].Cells[1].Value);
-                                   
+
                                 }
                                 else if (tipo == 2)
                                 {
@@ -856,7 +848,7 @@ namespace Modulo_Administracion
                                     cliente_direccion.cod_pais = Convert.ToInt32(frm.dgvResultados.SelectedRows[0].Cells[0].Value);
                                     cliente_direccion.tpais.txt_desc = Convert.ToString(frm.dgvResultados.SelectedRows[0].Cells[1].Value);
                                     txt.Text = Convert.ToString(frm.dgvResultados.SelectedRows[0].Cells[1].Value);
-                                   
+
                                 }
 
                                 break;
@@ -872,7 +864,7 @@ namespace Modulo_Administracion
 
                                     txtLocalidad.Text = Convert.ToString(frm.dgvResultados.SelectedRows[0].Cells[1].Value);
                                     txtCodPostal.Text = Convert.ToString(frm.dgvResultados.SelectedRows[0].Cells[2].Value);
-                                    
+
                                 }
                                 else if (tipo == 2)
                                 {
@@ -882,7 +874,7 @@ namespace Modulo_Administracion
 
                                     txtLocalidad.Text = Convert.ToString(frm.dgvResultados.SelectedRows[0].Cells[1].Value);
                                     txtCodPostal.Text = Convert.ToString(frm.dgvResultados.SelectedRows[0].Cells[2].Value);
-                                    
+
                                 }
 
                                 break;

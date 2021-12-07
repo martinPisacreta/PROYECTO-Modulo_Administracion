@@ -1,14 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Security;
-using System.Text;
-using Microsoft.VisualBasic;
 using System.Data;
 using System.Windows.Forms;
 
@@ -36,7 +26,7 @@ namespace Modulo_Administracion
         }
 
 
-        public void IniciarForm(DataTable dt,int de_donde_vengo)
+        public void IniciarForm(DataTable dt, int de_donde_vengo)
         {
 
             try
@@ -48,7 +38,7 @@ namespace Modulo_Administracion
 
                 if (de_donde_vengo == 1) //si vengo aca desde frmFactura
                 {
-                    if (dgvResultados.Columns.Count > 2) 
+                    if (dgvResultados.Columns.Count > 2)
                         dgvResultados.Columns[2].Visible = false; //oculto la columna 2
                 }
                 else //si vengo desde otro formulario
@@ -56,7 +46,7 @@ namespace Modulo_Administracion
                     if (dgvResultados.Columns.Count > 2)
                         dgvResultados.Columns[2].Visible = true; //muestro la columna 2
                 }
-                
+
 
                 lblRegistros.Text = "Registros: " + dgvResultados.RowCount;
                 if (dgvResultados.RowCount < 1) // si no hay resultados , bloqueo el aceptar

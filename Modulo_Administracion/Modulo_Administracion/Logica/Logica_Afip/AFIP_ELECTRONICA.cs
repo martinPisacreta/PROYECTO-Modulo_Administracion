@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.IO;
-using System.Linq;
 using System.Security;
 using System.Security.Cryptography.Pkcs;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
@@ -224,7 +220,7 @@ namespace Modulo_Administracion.Capas.Logica_Afip
         }
 
 
-        public static WS_SR_CONSTANCIA_INSCRIPCION.personaReturn GET_PERSON(LOGIN _LOGIN,long WS_EMISOR_CUIT,long DOC_CLIENTE)
+        public static WS_SR_CONSTANCIA_INSCRIPCION.personaReturn GET_PERSON(LOGIN _LOGIN, long WS_EMISOR_CUIT, long DOC_CLIENTE)
         {
             try
             {
@@ -343,7 +339,7 @@ namespace Modulo_Administracion.Capas.Logica_Afip
 
                 }
 
-               
+
 
 
 

@@ -1,27 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Data.SqlClient;
-using System.Data;
-using System.Windows.Forms;
-using System.Configuration;
+﻿using DevExpress.Pdf;
 using Microsoft.VisualBasic;
-using System.Text.RegularExpressions;
 using Modulo_Administracion.Clases;
-using System.IO;
-using System.Globalization;
-using System.Diagnostics;
+using System;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Drawing.Printing;
-using System.Threading;
-
-using DevExpress.Pdf;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace Modulo_Administracion.Logica
 {
     static class Logica_Funciones_Generales
     {
-        
+
         public static DataSet CargarComboBox(string sTablas, ComboBox cControl, string sNomCamp, string sWhere, string sOrderBy, string sValueMember)
         {
             SqlConnection conn = null;
@@ -144,10 +139,10 @@ namespace Modulo_Administracion.Logica
 
                 cliente = logica_cliente.buscar_cliente(factura.id_cliente);
                 FilePath = FilePath + "\\" + cliente.nombre_fantasia + " - " + factura.ttipo_factura.letra + factura.nro_factura.ToString() + ".pdf";
-              
+
                 return FilePath;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -156,7 +151,7 @@ namespace Modulo_Administracion.Logica
 
         public static string generar_Pdf(factura factura)
         {
-            
+
             try
             {
                 //genero 
@@ -178,13 +173,13 @@ namespace Modulo_Administracion.Logica
 
                 return factura.path_factura;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
         }
 
-        public static bool mandar_a_imprimir(string ruta,string namePrinter,short nro_copias)
+        public static bool mandar_a_imprimir(string ruta, string namePrinter, short nro_copias)
         {
             bool bandera = false;
             try

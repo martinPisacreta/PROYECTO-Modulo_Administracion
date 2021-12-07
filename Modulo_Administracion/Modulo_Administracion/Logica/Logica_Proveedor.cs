@@ -6,8 +6,6 @@ using System.Data;
 using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Modulo_Administracion.Logica
 {
@@ -36,7 +34,7 @@ namespace Modulo_Administracion.Logica
                     }
                     else
                     {
-                        proveedor_a_insertar.id_proveedor = db.proveedor.Max(p =>  p.id_proveedor) + 1;
+                        proveedor_a_insertar.id_proveedor = db.proveedor.Max(p => p.id_proveedor) + 1;
                     }
                     proveedor_a_insertar.razon_social = proveedor.razon_social;
                     proveedor_a_insertar.id_condicion_ante_iva = proveedor.id_condicion_ante_iva;
@@ -96,10 +94,10 @@ namespace Modulo_Administracion.Logica
             bool bandera = false;
             using (DbContextTransaction dbContextTransaction = db.Database.BeginTransaction())
             {
-                
+
                 try
                 {
-                   
+
 
                     proveedor proveedor_db = db.proveedor.FirstOrDefault(f => f.id_proveedor == proveedor.id_proveedor);
                     proveedor_db.id_proveedor = proveedor.id_proveedor;
@@ -162,7 +160,7 @@ namespace Modulo_Administracion.Logica
 
                 try
                 {
-                   
+
 
                     proveedor proveedor_db = db.proveedor.FirstOrDefault(f => f.id_proveedor == proveedor.id_proveedor);
                     proveedor_db.id_proveedor = proveedor.id_proveedor;
@@ -236,11 +234,11 @@ namespace Modulo_Administracion.Logica
             Modulo_AdministracionContext db = new Modulo_AdministracionContext();
             try
             {
-             
+
 
                 List<proveedor> proveedores = (from p in db.proveedor
                                                where p.sn_activo == -1
-                                              select p).ToList();
+                                               select p).ToList();
 
 
                 return proveedores;
@@ -253,7 +251,7 @@ namespace Modulo_Administracion.Logica
             {
                 db = null;
             }
-           
+
         }
 
         public proveedor buscar_proveedor(int id_proveedor)
@@ -262,7 +260,7 @@ namespace Modulo_Administracion.Logica
             Modulo_AdministracionContext db = new Modulo_AdministracionContext();
             try
             {
-       
+
                 proveedor proveedor = db.proveedor.FirstOrDefault(p => p.id_proveedor == id_proveedor);
 
                 return proveedor;
@@ -328,7 +326,7 @@ namespace Modulo_Administracion.Logica
                 throw ex;
             }
         }
-        public proveedor buscar_proveedor_por_razon_social_activo(string razon_social,int id_proveedor)
+        public proveedor buscar_proveedor_por_razon_social_activo(string razon_social, int id_proveedor)
         {
 
             Modulo_AdministracionContext db = new Modulo_AdministracionContext();

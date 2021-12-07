@@ -4,11 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
-using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Modulo_Administracion.Logica
 {
@@ -60,7 +57,7 @@ namespace Modulo_Administracion.Logica
                         catch (Exception ex)
                         {
                             transaction.Rollback();
-                            
+
                             conn.Close();
                             throw ex;
                         }
@@ -86,7 +83,7 @@ namespace Modulo_Administracion.Logica
                         {
 
 
-                            
+
                             SqlCommand crear_tabla_tmp_lista_precios_proveedor = new SqlCommand(
                                                                                  "create table #tmp_lista_precios_proveedor" +
                                                                                  "(" +
@@ -213,7 +210,7 @@ namespace Modulo_Administracion.Logica
 
                     SqlCommand command = new SqlCommand("buscar_articulos_por_codigo_articulo_marca_y_codigo_articulo", conn);
                     command.CommandTimeout = 0;
-                    
+
                     command.Parameters.AddWithValue("@codigo_articulo_marca", codigo_articulo_marca);
                     command.Parameters.AddWithValue("@codigo_articulo", codigo_articulo);
 
@@ -249,7 +246,7 @@ namespace Modulo_Administracion.Logica
         }
 
 
-      
+
 
         //public articulo buscar_articulo(string codigo_articulo_marca, string codigo_articulo)
         //{
@@ -320,8 +317,8 @@ namespace Modulo_Administracion.Logica
             try
             {
 
-                List<factura_detalle> lista_factura_detalle = (from fd in db.factura_detalle 
-                                                              where fd.id_articulo == id_articulo
+                List<factura_detalle> lista_factura_detalle = (from fd in db.factura_detalle
+                                                               where fd.id_articulo == id_articulo
                                                                select fd).ToList();
 
                 if (lista_factura_detalle != null)
@@ -498,7 +495,7 @@ namespace Modulo_Administracion.Logica
         }
 
 
-       
+
 
         public bool modificar_articulos_existentes(List<articulo> lista_articulo, Modulo_AdministracionContext db)
         {
@@ -523,8 +520,8 @@ namespace Modulo_Administracion.Logica
             {
                 throw ex;
             }
-               
-            
+
+
         }
 
         public bool modificar_articulo(articulo articulo, Modulo_AdministracionContext db)
@@ -572,7 +569,7 @@ namespace Modulo_Administracion.Logica
             {
                 throw ex;
             }
-            
+
         }
 
         public bool alta_articulo(articulo articulo, Modulo_AdministracionContext db)
@@ -630,7 +627,7 @@ namespace Modulo_Administracion.Logica
                     algoritmo9 = familia_articulo.algoritmo_9;
                 }
 
-               
+
 
                 //id_articulo es identity
                 articulo_a_insertar.codigo_articulo_marca = familia_articulo.marca.txt_desc_marca;
@@ -647,7 +644,7 @@ namespace Modulo_Administracion.Logica
                 int cantidad = db.articulo.Count();
                 if (cantidad == 0)
                 {
-                    articulo_a_insertar.id_orden = 1; 
+                    articulo_a_insertar.id_orden = 1;
                 }
                 else
                 {

@@ -2,13 +2,6 @@
 using Modulo_Administracion.Clases;
 using Modulo_Administracion.Logica;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Modulo_Administracion
@@ -82,7 +75,7 @@ namespace Modulo_Administracion
         {
             try
             {
-                
+
                 txtCodigo.Text = "";
                 txtFamilia.Text = "";
 
@@ -134,7 +127,7 @@ namespace Modulo_Administracion
                 txtFamilia.Enabled = true;
                 cbMarca.Enabled = true;
                 dgvFamilia.Enabled = true;
-     
+
 
                 txtAlgoritmo_1.Enabled = true;
                 txtAlgoritmo_2.Enabled = true;
@@ -236,7 +229,7 @@ namespace Modulo_Administracion
                                 cbMarca.SelectedValue = 0;
                                 cbMarca.Enabled = true;
                                 cbProveedor.Enabled = true;
-                             
+
                             }
                             else
                             {
@@ -244,9 +237,9 @@ namespace Modulo_Administracion
                                 cbMarca.SelectedValue = marca.id_tabla_marca;
                                 cbMarca.Enabled = false;
                                 cbProveedor.Enabled = false;
-                              
+
                             }
-                            
+
 
 
                             //accion
@@ -279,7 +272,7 @@ namespace Modulo_Administracion
                             {
                                 familia.marca = marca;
                             }
-                           
+
                             //datagridview
                             dgvFamilia.Enabled = false;
 
@@ -288,7 +281,7 @@ namespace Modulo_Administracion
 
                     case Program.Modif:
                         {
-                           
+
 
                             //modifico  enabled - visible - text 
                             btnNuevo.Enabled = false;
@@ -323,7 +316,7 @@ namespace Modulo_Administracion
         {
             try
             {
-               
+
 
 
                 dgvFamilia.Columns[0].Width = 100; //el [0] hace referencia a id_tabla_familia
@@ -435,7 +428,7 @@ namespace Modulo_Administracion
                         return;
                     }
 
-                    if (logica_familia.modificar_eliminar_familia(familia,Convert.ToDecimal(lblCoeficiente_con_beneficio.Text),1) == false)
+                    if (logica_familia.modificar_eliminar_familia(familia, Convert.ToDecimal(lblCoeficiente_con_beneficio.Text), 1) == false)
                     {
                         MessageBox.Show("Error al modificar la familia " + txtFamilia.Text, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
@@ -578,7 +571,7 @@ namespace Modulo_Administracion
                     return;
                 }
 
-                if (logica_familia.modificar_eliminar_familia(familia,0, 2) == false)
+                if (logica_familia.modificar_eliminar_familia(familia, 0, 2) == false)
                 {
                     MessageBox.Show("Error al eliminar la familia " + txtFamilia.Text, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
@@ -623,7 +616,7 @@ namespace Modulo_Administracion
             }
         }
 
-     
+
         private void txtFamilia_Leave(object sender, EventArgs e)
         {
             try
@@ -732,9 +725,9 @@ namespace Modulo_Administracion
                 if (Convert.ToDecimal(txtAlgoritmo_7.Text) > 0) { algoritmo7 = Convert.ToDecimal(txtAlgoritmo_7.Text); } else { algoritmo7 = 1; }
                 if (Convert.ToDecimal(txtAlgoritmo_8.Text) > 0) { algoritmo8 = Convert.ToDecimal(txtAlgoritmo_8.Text); } else { algoritmo8 = 1; }
                 if (Convert.ToDecimal(txtAlgoritmo_9.Text) > 0 && txtAlgoritmo_9.Text != "") { algoritmo9 = Convert.ToDecimal(txtAlgoritmo_9.Text); } else { algoritmo9 = 1; }
-                
-                precio_coeficiente = logica_familia.precio_coeficiente(tipo_de_coeficiente,algoritmo1, algoritmo2, algoritmo3, algoritmo4, algoritmo5, algoritmo6, algoritmo7, algoritmo8, algoritmo9).ToString();
-                
+
+                precio_coeficiente = logica_familia.precio_coeficiente(tipo_de_coeficiente, algoritmo1, algoritmo2, algoritmo3, algoritmo4, algoritmo5, algoritmo6, algoritmo7, algoritmo8, algoritmo9).ToString();
+
                 return precio_coeficiente;
             }
             catch (Exception ex)
@@ -747,7 +740,7 @@ namespace Modulo_Administracion
             }
         }
 
-        
+
         private void txtAlgoritmo_1_Leave(object sender, EventArgs e)
         {
             try
@@ -759,7 +752,7 @@ namespace Modulo_Administracion
             {
                 txtAlgoritmo_1.Text = Convert.ToDecimal("0,0000").ToString("N4");
                 lblCoeficiente_sin_beneficio.Text = Convert.ToDecimal(precio_coeficiente(1)).ToString("N4");
-                lblCoeficiente_con_beneficio.Text = Convert.ToDecimal(precio_coeficiente(2)).ToString("N4");  
+                lblCoeficiente_con_beneficio.Text = Convert.ToDecimal(precio_coeficiente(2)).ToString("N4");
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
@@ -777,8 +770,8 @@ namespace Modulo_Administracion
             catch (Exception ex)
             {
                 txtAlgoritmo_2.Text = Convert.ToDecimal("0,0000").ToString("N4");
-                lblCoeficiente_sin_beneficio.Text = Convert.ToDecimal(precio_coeficiente(1)).ToString("N4"); 
-                lblCoeficiente_con_beneficio.Text = Convert.ToDecimal(precio_coeficiente(2)).ToString("N4");  
+                lblCoeficiente_sin_beneficio.Text = Convert.ToDecimal(precio_coeficiente(1)).ToString("N4");
+                lblCoeficiente_con_beneficio.Text = Convert.ToDecimal(precio_coeficiente(2)).ToString("N4");
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -820,7 +813,7 @@ namespace Modulo_Administracion
         {
             try
             {
-                
+
                 lblCoeficiente_sin_beneficio.Text = Convert.ToDecimal(precio_coeficiente(1)).ToString("N4");
                 lblCoeficiente_con_beneficio.Text = Convert.ToDecimal(precio_coeficiente(2)).ToString("N4");
             }

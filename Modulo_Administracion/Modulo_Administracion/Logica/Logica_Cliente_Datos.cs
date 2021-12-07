@@ -1,22 +1,19 @@
-﻿using System;
+﻿using Modulo_Administracion.Clases;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Data.SqlClient;
-using System.Data;
 using System.Configuration;
-
-using Modulo_Administracion.Clases;
-using System.Data.Entity;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
 
 namespace Modulo_Administracion.Logica
 {
     public class Logica_Cliente_Datos
     {
 
-        public bool alta_dato(cliente_datos dato,int id_cliente, Modulo_AdministracionContext db)
+        public bool alta_dato(cliente_datos dato, int id_cliente, Modulo_AdministracionContext db)
         {
-         
+
             bool bandera = false;
             try
             {
@@ -39,12 +36,12 @@ namespace Modulo_Administracion.Logica
             {
                 throw ex;
             }
-            
+
         }
 
         public bool modificar_dato(cliente_datos dato, Modulo_AdministracionContext db)
         {
-           
+
             bool bandera = false;
             try
             {
@@ -60,7 +57,7 @@ namespace Modulo_Administracion.Logica
                     cliente_datos cliente_datos_db = db.cliente_datos.FirstOrDefault(c => c.id_cliente == dato.id_cliente && c.cod_tipo_dato == dato.cod_tipo_dato);
                     if (cliente_datos_db == null)
                     {
-                        if (alta_dato(dato,dato.id_cliente, db) == false)
+                        if (alta_dato(dato, dato.id_cliente, db) == false)
                         {
                             throw new Exception("Error al dar de alta un dato del cliente");
                         }
@@ -76,7 +73,7 @@ namespace Modulo_Administracion.Logica
 
                         db.SaveChanges();
                     }
-                    
+
                 }
 
                 bandera = true;
@@ -87,12 +84,12 @@ namespace Modulo_Administracion.Logica
             {
                 throw ex;
             }
-            
+
         }
 
         public bool eliminar_dato(cliente_datos dato, Modulo_AdministracionContext db)
         {
-            
+
             bool bandera = false;
             try
             {
@@ -110,7 +107,7 @@ namespace Modulo_Administracion.Logica
             {
                 throw ex;
             }
-           
+
         }
 
 
@@ -167,10 +164,10 @@ namespace Modulo_Administracion.Logica
             Modulo_AdministracionContext db = new Modulo_AdministracionContext();
             try
             {
-      
+
                 List<cliente_datos> datos = (from t in db.cliente_datos
-                                                   where t.id_cliente == id_cliente && t.sn_activo == -1 
-                                                   select t).ToList();
+                                             where t.id_cliente == id_cliente && t.sn_activo == -1
+                                             select t).ToList();
 
 
                 return datos;
@@ -185,7 +182,7 @@ namespace Modulo_Administracion.Logica
                 db = null;
             }
 
-           
+
         }
 
         public cliente_datos buscar_dato(int id_cliente, decimal cod_tipo_dato)
@@ -210,7 +207,7 @@ namespace Modulo_Administracion.Logica
                 db = null;
             }
         }
-        public bool dar_de_baja_cliente_datos_por_cliente(int id_cliente, Modulo_AdministracionContext db) 
+        public bool dar_de_baja_cliente_datos_por_cliente(int id_cliente, Modulo_AdministracionContext db)
         {
             bool bandera = false;
             try
@@ -225,7 +222,7 @@ namespace Modulo_Administracion.Logica
                     pt.sn_activo = 0;
                     pt.accion = "ELIMINACION";
                     pt.fec_ult_modif = DateTime.Now;
-                  
+
 
 
                 }
@@ -238,7 +235,7 @@ namespace Modulo_Administracion.Logica
             {
                 throw ex;
             }
-            
+
         }
     }
 }

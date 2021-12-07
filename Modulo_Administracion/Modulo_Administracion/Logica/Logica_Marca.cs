@@ -1,19 +1,15 @@
-﻿using System;
+﻿using Modulo_Administracion.Clases;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Data.SqlClient;
 using System.Data;
-using System.Configuration;
-
-using Modulo_Administracion.Clases;
 using System.Data.Entity;
+using System.Linq;
 
 namespace Modulo_Administracion.Logica
 {
     public class Logica_Marca
     {
-        
+
         public bool alta_marca(marca marca)
         {
             Modulo_AdministracionContext db = new Modulo_AdministracionContext();
@@ -33,7 +29,7 @@ namespace Modulo_Administracion.Logica
                     else
                     {
                         marca_a_insertar.id_tabla_marca = db.marca.Max(m => m.id_tabla_marca) + 1;
-                        marca_a_insertar.id_marca = db.marca.Max(m =>  m.id_marca) + 1;
+                        marca_a_insertar.id_marca = db.marca.Max(m => m.id_marca) + 1;
                     }
                     marca_a_insertar.id_proveedor = marca.id_proveedor;
                     marca_a_insertar.txt_desc_marca = marca.txt_desc_marca;
@@ -61,7 +57,7 @@ namespace Modulo_Administracion.Logica
             }
         }
 
-        public bool modificar_eliminar_marca(marca marca,int accion)
+        public bool modificar_eliminar_marca(marca marca, int accion)
         {
 
             Modulo_AdministracionContext db = new Modulo_AdministracionContext();
@@ -112,7 +108,7 @@ namespace Modulo_Administracion.Logica
                 {
                     db = null;
                 }
-            }   
+            }
         }
 
         public bool dar_de_baja_marcas_por_proveedor(int id_proveedor, Modulo_AdministracionContext db) //doy de baja las marcas de un proveedor
@@ -121,10 +117,10 @@ namespace Modulo_Administracion.Logica
             bool bandera = false;
             try
             {
-           
-                List<marca> lista_marcas = (    from m in db.marca
-                                                where m.id_proveedor == id_proveedor
-                                                select m).ToList();
+
+                List<marca> lista_marcas = (from m in db.marca
+                                            where m.id_proveedor == id_proveedor
+                                            select m).ToList();
 
                 foreach (marca m in lista_marcas)
                 {
@@ -137,9 +133,9 @@ namespace Modulo_Administracion.Logica
                     m.sn_activo = 0;
                     m.accion = "ELIMINACION";
                     m.fec_ult_modif = DateTime.Now;
-                   
 
-                    
+
+
                 }
 
 
@@ -151,7 +147,7 @@ namespace Modulo_Administracion.Logica
             {
                 throw ex;
             }
-           
+
         }
 
 
@@ -164,13 +160,13 @@ namespace Modulo_Administracion.Logica
             {
 
                 var marcas = (from m in db.marca
-                                      where m.id_proveedor == id_proveedor && m.sn_activo == -1
-                                      select new
-                                      {
-                                          m.id_tabla_marca,
-                                          m.txt_desc_marca,
-                                          m.proveedor.razon_social
-                                      }).ToList();
+                              where m.id_proveedor == id_proveedor && m.sn_activo == -1
+                              select new
+                              {
+                                  m.id_tabla_marca,
+                                  m.txt_desc_marca,
+                                  m.proveedor.razon_social
+                              }).ToList();
 
                 return marcas;
             }

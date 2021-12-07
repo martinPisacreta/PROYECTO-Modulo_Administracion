@@ -4,15 +4,8 @@ using Modulo_Administracion.Clases;
 using Modulo_Administracion.Logica;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Data.Entity;
-using System.Drawing;
 using System.Drawing.Printing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Modulo_Administracion.Vista
@@ -70,8 +63,8 @@ namespace Modulo_Administracion.Vista
                     if (e.RowIndex >= dgvFacturas.Rows.Count)
                     {
                         row_index = dgvFacturas.Rows.Count - 1;
-                       
-                    }    
+
+                    }
                     else
                     {
                         row_index = e.RowIndex;
@@ -79,7 +72,7 @@ namespace Modulo_Administracion.Vista
 
                     dgvFacturas.Rows[row_index].Selected = true;
                     dgvFacturas.FirstDisplayedScrollingRowIndex = row_index;
-             
+
                 }
 
             }
@@ -141,7 +134,7 @@ namespace Modulo_Administracion.Vista
         {
             try
             {
-               
+
                 monthCalendar1.SetDate(DateTime.Now);
                 dgvFacturas.Rows.Clear();
 
@@ -158,10 +151,10 @@ namespace Modulo_Administracion.Vista
             Cursor.Current = Cursors.WaitCursor;
             try
             {
-               
+
                 btnSalir.Enabled = true;
 
-               
+
                 //datagridview
                 dgvFacturas.Enabled = true;
 
@@ -177,11 +170,11 @@ namespace Modulo_Administracion.Vista
 
                             buscar_facturas_por_fecha();
                             //modifico  enabled - visible - text 
-                         
+
                             rdBusqueda1.Checked = true;
                             monthCalendar1.Enabled = true;
                             panelBusqueda2.Enabled = false;
-                            
+
 
 
                             //accion
@@ -226,7 +219,7 @@ namespace Modulo_Administracion.Vista
             }
         }
 
-       
+
 
         private void btnSalir_Click(object sender, EventArgs e)
         {
@@ -240,15 +233,15 @@ namespace Modulo_Administracion.Vista
             }
         }
 
-       
 
-      
 
-       
 
-      
 
-      
+
+
+
+
+
         private void frmFacturaGestion_Load(object sender, EventArgs e)
         {
 
@@ -305,7 +298,7 @@ namespace Modulo_Administracion.Vista
                     {
                         if (factura.cliente.id_condicion_factura == 1)
                         {
-                            dgvFacturas.Rows[indice].Cells[5].Value = factura.precio_final_con_pago_mayor_a_30_dias; 
+                            dgvFacturas.Rows[indice].Cells[5].Value = factura.precio_final_con_pago_mayor_a_30_dias;
                         }
                         else if (factura.cliente.id_condicion_factura == 2)
                         {
@@ -330,7 +323,7 @@ namespace Modulo_Administracion.Vista
                     dgvFacturas.Rows[indice].Cells[8].Value = factura.ttipo_factura.cod_tipo_factura.ToString();
                     indice = indice + 1;
                 }
-                
+
                 //seteo columnas
                 seteoColumnasDataGridView();
 
@@ -345,10 +338,10 @@ namespace Modulo_Administracion.Vista
 
         private void buscar_facturas_por_fecha()
         {
-            
+
             try
             {
-               
+
                 //datagridview
                 dgvFacturas.Rows.Clear();
                 List<factura> lista_facturas_por_fecha = logica_factura.buscar_facturas_por_fecha(monthCalendar1.SelectionRange.Start.Date);
@@ -372,7 +365,7 @@ namespace Modulo_Administracion.Vista
             {
                 throw ex;
             }
-            
+
         }
 
         private void monthCalendar1_DateSelected(object sender, DateRangeEventArgs e)
@@ -432,8 +425,8 @@ namespace Modulo_Administracion.Vista
 
         private void rdBusqueda2_CheckedChanged(object sender, EventArgs e)
         {
-            try 
-            { 
+            try
+            {
                 if (rdBusqueda2.Checked == true)
                 {
                     panelBusqueda2.Enabled = true;
@@ -459,7 +452,7 @@ namespace Modulo_Administracion.Vista
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-          
+
         }
 
         private void txtFechaHasta_Leave(object sender, EventArgs e)
@@ -601,7 +594,7 @@ namespace Modulo_Administracion.Vista
         private void itemDropDownButton_Click(object sender, EventArgs e)
         {
             frmEspere frm_Espere = new frmEspere();
-            
+
             try
             {
                 if (((DXMenuItem)sender).Caption == opcion_2_dropDownButton)
@@ -610,17 +603,17 @@ namespace Modulo_Administracion.Vista
                     {
                         //if (Convert.ToInt32(dgvFacturas.SelectedRows[0].Cells[8].Value) == 1)
                         //{
-                            Cursor.Current = Cursors.WaitCursor;
-                            frm_Espere.Show();
+                        Cursor.Current = Cursors.WaitCursor;
+                        frm_Espere.Show();
 
-                            reporte_factura reporte = new reporte_factura();
-                            reporte.Parameters["id_factura"].Value = Convert.ToInt32(dgvFacturas.SelectedRows[0].Cells[0].Value);
-                            reporte.Parameters["id_factura"].Visible = false;
+                        reporte_factura reporte = new reporte_factura();
+                        reporte.Parameters["id_factura"].Value = Convert.ToInt32(dgvFacturas.SelectedRows[0].Cells[0].Value);
+                        reporte.Parameters["id_factura"].Visible = false;
 
-                            frm_Espere.Hide();
-                            Cursor.Current = Cursors.Default;
+                        frm_Espere.Hide();
+                        Cursor.Current = Cursors.Default;
 
-                            reporte.ShowPreview();
+                        reporte.ShowPreview();
                         //}
                     }
                     else if (dgvFacturas.SelectedRows.Count == 0)
@@ -747,7 +740,7 @@ namespace Modulo_Administracion.Vista
                                 }
                                 else //si ya esta emitida
                                 {
-                                   
+
                                     if (factura_db != null)  //voy a buscar la factura que fui a buscar a la base de datos
                                     {
                                         string FilePath_PDF = Logica_Funciones_Generales.generar_Pdf(factura_db);
@@ -806,9 +799,9 @@ namespace Modulo_Administracion.Vista
         }
 
 
-     
-      
-      
+
+
+
 
         private void txtCliente_Leave(object sender, EventArgs e)
         {
@@ -836,7 +829,7 @@ namespace Modulo_Administracion.Vista
 
 
 
-                frm.IniciarForm(logica_cliente.buscar_clientes(razon_social).Tables[0],2);
+                frm.IniciarForm(logica_cliente.buscar_clientes(razon_social).Tables[0], 2);
 
 
 
@@ -886,10 +879,10 @@ namespace Modulo_Administracion.Vista
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-           
+
         }
 
-       
+
 
         private void txtNroCopias_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -907,7 +900,7 @@ namespace Modulo_Administracion.Vista
         {
 
             Cursor.Current = Cursors.WaitCursor;
-           
+
             bool bandera = false;
             int cantidad = 0;
             bool bandera_warning = false;
@@ -976,12 +969,12 @@ namespace Modulo_Administracion.Vista
                             {
                                 throw new Exception("Error al ir a buscar la factura a la base de datos");
                             }
-                            
-                           
+
+
                         }
                         Cursor.Current = Cursors.Default;
                         MessageBox.Show("Se eliminaron : " + cantidad + " facturas de " + dgvFacturas.SelectedRows.Count, "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }    
+                    }
                 }
                 else
                 {

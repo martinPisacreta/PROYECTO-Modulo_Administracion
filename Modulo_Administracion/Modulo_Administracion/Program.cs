@@ -1,9 +1,5 @@
-﻿using Modulo_Administracion.Clases;
-using Modulo_Administracion.Vista;
+﻿using Modulo_Administracion.Vista;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Modulo_Administracion
@@ -19,7 +15,7 @@ namespace Modulo_Administracion
         public const int nro_copias = 2;
         public const string password = "123456";
 
-        public const string  ruta_guardar_factura_pdf = @"\\MAXI-PC\Compartida\FACTURAS DEL DIA\";
+        public const string ruta_guardar_factura_pdf = @"\\MAXI-PC\Compartida\FACTURAS DEL DIA\";
         //public const string ruta_guardar_factura_pdf = @"C:\Users\Martin\Desktop\";
         [STAThread]
 

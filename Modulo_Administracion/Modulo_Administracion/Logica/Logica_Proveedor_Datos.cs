@@ -1,22 +1,19 @@
-﻿using System;
+﻿using Modulo_Administracion.Clases;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Data.SqlClient;
-using System.Data;
 using System.Configuration;
-
-using Modulo_Administracion.Clases;
-using System.Data.Entity;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
 
 namespace Modulo_Administracion.Logica
 {
     public class Logica_Proveedor_Datos
     {
 
-        public bool alta_dato(proveedor_datos dato,int id_proveedor, Modulo_AdministracionContext db)
+        public bool alta_dato(proveedor_datos dato, int id_proveedor, Modulo_AdministracionContext db)
         {
-           
+
             bool bandera = false;
             try
             {
@@ -39,7 +36,7 @@ namespace Modulo_Administracion.Logica
             {
                 throw ex;
             }
-           
+
         }
 
         public bool modificar_dato(proveedor_datos dato, Modulo_AdministracionContext db)
@@ -166,10 +163,10 @@ namespace Modulo_Administracion.Logica
             Modulo_AdministracionContext db = new Modulo_AdministracionContext();
             try
             {
-      
+
                 List<proveedor_datos> datos = (from t in db.proveedor_datos
-                                                   where t.id_proveedor == id_proveedor && t.sn_activo == -1 
-                                                   select t).ToList();
+                                               where t.id_proveedor == id_proveedor && t.sn_activo == -1
+                                               select t).ToList();
 
 
                 return datos;
@@ -184,7 +181,7 @@ namespace Modulo_Administracion.Logica
                 db = null;
             }
 
-           
+
         }
 
         public proveedor_datos buscar_dato(int id_proveedor, decimal cod_tipo_dato)
@@ -209,22 +206,22 @@ namespace Modulo_Administracion.Logica
                 db = null;
             }
         }
-        public bool dar_de_baja_proveedor_datos_por_proveedor(int id_proveedor, Modulo_AdministracionContext db) 
+        public bool dar_de_baja_proveedor_datos_por_proveedor(int id_proveedor, Modulo_AdministracionContext db)
         {
             bool bandera = false;
             try
             {
 
                 List<proveedor_datos> lista_proveedor_datos = (from pt in db.proveedor_datos
-                                                           where pt.id_proveedor == id_proveedor
-                                                           select pt).ToList();
+                                                               where pt.id_proveedor == id_proveedor
+                                                               select pt).ToList();
                 foreach (proveedor_datos pt in lista_proveedor_datos)
                 {
 
                     pt.sn_activo = 0;
                     pt.accion = "ELIMINACION";
                     pt.fec_ult_modif = DateTime.Now;
-                   
+
 
 
                 }
@@ -236,7 +233,7 @@ namespace Modulo_Administracion.Logica
             {
                 throw ex;
             }
-            
+
         }
     }
 }

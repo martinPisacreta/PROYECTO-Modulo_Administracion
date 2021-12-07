@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Modulo_Administracion.Capas.Logica_Afip
+﻿namespace Modulo_Administracion.Capas.Logica_Afip
 {
     public class CGLOBAL
     {

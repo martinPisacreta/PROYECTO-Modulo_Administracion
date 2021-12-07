@@ -14,36 +14,36 @@ namespace Modulo_Administracion
         cliente cliente = null;
         Logica_Vendedor logica_vendedor = new Logica_Vendedor();
         Logica_Cliente logica_cliente = new Logica_Cliente();
-      
+
         int Accion;
 
 
 
-       
+
 
         private void btnCliente_Datos_Click(object sender, EventArgs e)
         {
             try
             {
-               
 
-                    frmDatos frm = new frmDatos();
-                    frm.InicioForm(null, cliente, 2);
-                    var result = frm.ShowDialog();
 
-                    if (result == DialogResult.OK)
+                frmDatos frm = new frmDatos();
+                frm.InicioForm(null, cliente, 2);
+                var result = frm.ShowDialog();
+
+                if (result == DialogResult.OK)
+                {
+
+                    if (cliente.cliente_datos == null)
                     {
-
-                        if (cliente.cliente_datos == null)
-                        {
-                            cliente.cliente_datos = new List<cliente_datos>();
-                        }
-
-
-                        cliente.cliente_datos = frm.lista_aux_cliente;
+                        cliente.cliente_datos = new List<cliente_datos>();
                     }
-                
-               
+
+
+                    cliente.cliente_datos = frm.lista_aux_cliente;
+                }
+
+
             }
             catch (Exception ex)
             {
@@ -52,7 +52,7 @@ namespace Modulo_Administracion
 
         }
 
-        
+
 
 
         //--------------------------------------
@@ -116,14 +116,14 @@ namespace Modulo_Administracion
                 btnCliente_CtaCorriente.Enabled = true;
                 btnCliente_Datos.Enabled = true;
                 btnCliente_Direccion.Enabled = true;
-                
+
 
                 //datagridview
                 dgvCliente.Enabled = true;
 
                 txtBusqueda.Enabled = true;
 
-               
+
 
 
                 switch (queHago)
@@ -166,7 +166,7 @@ namespace Modulo_Administracion
 
 
 
-                           
+
 
                             //limpio cualquier seleccion en el datagridview
                             dgvCliente.ClearSelection();
@@ -182,8 +182,8 @@ namespace Modulo_Administracion
                             limpio_form();
 
                             //modifico  enabled - visible - text 
-                            btnCliente_CtaCorriente.Enabled = true; 
-                            btnCliente_Datos.Enabled = true; 
+                            btnCliente_CtaCorriente.Enabled = true;
+                            btnCliente_Datos.Enabled = true;
                             btnCliente_Direccion.Enabled = true;
 
                             btnNuevo.Enabled = false;
@@ -301,7 +301,7 @@ namespace Modulo_Administracion
         {
             try
             {
-                
+
 
                 dgvCliente.Columns[0].Width = 100;
                 dgvCliente.Columns[0].HeaderText = "Id Cliente";
@@ -387,9 +387,9 @@ namespace Modulo_Administracion
             }
         }
 
-      
 
-   
+
+
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
@@ -408,7 +408,7 @@ namespace Modulo_Administracion
                         return;
                     }
 
-                    if (logica_cliente.alta_cliente(cliente) == false) 
+                    if (logica_cliente.alta_cliente(cliente) == false)
                     {
                         MessageBox.Show("Error al grabar el cliente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
@@ -432,7 +432,7 @@ namespace Modulo_Administracion
                     }
 
                     MessageBox.Show("Modificación exitosa", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                  
+
 
                 }
                 cliente = null;
@@ -502,18 +502,18 @@ namespace Modulo_Administracion
                 if (txtCodigo.Text != "")
                 {
                     id_cliente = Convert.ToInt32(txtCodigo.Text);
-                   
+
                 }
 
-               
+
 
                 if (logica_cliente.buscar_cliente_por_nombre_fantasia_activo(txtNombreFantasia.Text, id_cliente) != null)
                 {
                     txtNombreFantasia.Focus();
                     throw new Exception("Ya existe un cliente con este nombre");
                 }
-                
-                
+
+
                 if (logica_cliente.buscar_cliente_por_razon_social_activo(txtRazonSocial_Cliente.Text, id_cliente) != null)
                 {
                     txtRazonSocial_Cliente.Focus();
@@ -587,7 +587,7 @@ namespace Modulo_Administracion
         {
             try
             {
-                
+
                 cliente.nombre_fantasia = txtNombreFantasia.Text;
                 cliente.razon_social = txtRazonSocial_Cliente.Text;
                 cliente.id_condicion_ante_iva = (Convert.ToInt32(cbCondicionIVA.SelectedValue));
@@ -609,7 +609,7 @@ namespace Modulo_Administracion
             {
                 txtNombreFantasia.Focus();
                 iniciar(Program.Alta);
-               
+
 
             }
             catch (Exception ex)
@@ -666,18 +666,18 @@ namespace Modulo_Administracion
 
         private void frmCliente_Load(object sender, EventArgs e)
         {
-        
+
             try
             {
-              
+
                 iniciar(Program.Inicio);
-             
+
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-           
+
         }
 
         private void txtNombreFantasia_Leave(object sender, EventArgs e)
@@ -697,21 +697,21 @@ namespace Modulo_Administracion
         {
             try
             {
-               
-                    frmDireccion frm = new frmDireccion();
-                    frm.InicioForm(null, cliente, 2);
-                    var result = frm.ShowDialog();
 
-                    if (result == DialogResult.OK)
+                frmDireccion frm = new frmDireccion();
+                frm.InicioForm(null, cliente, 2);
+                var result = frm.ShowDialog();
+
+                if (result == DialogResult.OK)
+                {
+                    if (cliente.cliente_dir == null)
                     {
-                        if (cliente.cliente_dir == null)
-                        {
-                            cliente.cliente_dir = new List<cliente_dir>();
-                        }
-
-                        cliente.cliente_dir = frm.lista_aux_cliente;
+                        cliente.cliente_dir = new List<cliente_dir>();
                     }
-                
+
+                    cliente.cliente_dir = frm.lista_aux_cliente;
+                }
+
 
 
 
@@ -758,20 +758,20 @@ namespace Modulo_Administracion
             try
             {
                 int valor_busqueda = 1; //el filtro es por cliente
-                if(rdVendedor.Checked == true)
+                if (rdVendedor.Checked == true)
                 {
                     valor_busqueda = 2; //el filtro es por vendedor
                 }
-                dgvCliente.DataSource = logica_cliente.filtro_cliente_nombre_fantasia(txtBusqueda.Text.Trim(),valor_busqueda);
+                dgvCliente.DataSource = logica_cliente.filtro_cliente_nombre_fantasia(txtBusqueda.Text.Trim(), valor_busqueda);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-          
+
         }
 
-       
+
 
         private void rdVendedor_CheckedChanged(object sender, EventArgs e)
         {

@@ -1,31 +1,15 @@
-﻿using DevExpress.Utils;
+﻿using DevExpress.Export;
+using DevExpress.XtraEditors.Repository;
+using DevExpress.XtraGrid;
 using DevExpress.XtraGrid.Views.Grid;
-using DevExpress.XtraGrid.Views.Grid.ViewInfo;
+using DevExpress.XtraReports.UI;
 using Modulo_Administracion.Clases;
 using Modulo_Administracion.Logica;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-
-using DevExpress.XtraEditors.Controls;
-using DevExpress.XtraGrid.Views.Base;
-using DevExpress.XtraGrid.Views.Grid;
-using DevExpress.XtraGrid.Columns;
-using DevExpress.XtraEditors.Repository;
-using DevExpress.XtraPrinting;
-using DevExpress.Export;
-using System.Drawing.Printing;
-using DevExpress.XtraReports.UI;
-
-using DevExpress.XtraGrid;
-using DevExpress.XtraGrid.Views.Grid;
 
 namespace Modulo_Administracion.Vista
 {
@@ -56,7 +40,7 @@ namespace Modulo_Administracion.Vista
 
                 cargar_gridControl();
 
-               
+
 
                 gridView1.Columns["Id"].Visible = false;
                 gridView1.Columns["Id_factura"].Visible = false;
@@ -81,7 +65,7 @@ namespace Modulo_Administracion.Vista
 
                 gridControl1.ForceInitialize();
                 RepositoryItemComboBox _riEditor = new RepositoryItemComboBox();
-                _riEditor.Items.AddRange(new string[] { valor_remito,valor_nota_credito,valor_nota_debito,valor_factura_a,valor_factura_b });
+                _riEditor.Items.AddRange(new string[] { valor_remito, valor_nota_credito, valor_nota_debito, valor_factura_a, valor_factura_b });
                 gridControl1.RepositoryItems.Add(_riEditor);
                 gridView1.Columns[3].ColumnEdit = _riEditor;
 
@@ -127,7 +111,7 @@ namespace Modulo_Administracion.Vista
                 //string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\" + "CUENTA CORRIENTE " + cliente.nombre_fantasia + ".pdf";
 
 
-                
+
                 if (rdDeuda.Checked == true)
                 {
                     tipo = 1;
@@ -139,7 +123,7 @@ namespace Modulo_Administracion.Vista
 
 
                 Cursor.Current = Cursors.WaitCursor;
-                
+
                 frm_Espere.Show();
 
                 reporte_cliente_cuenta_corriente report = new reporte_cliente_cuenta_corriente();
@@ -163,7 +147,7 @@ namespace Modulo_Administracion.Vista
                 Cursor.Current = Cursors.Default;
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-           
+
             finally
             {
                 frm_Espere.Hide();
@@ -193,7 +177,7 @@ namespace Modulo_Administracion.Vista
 
         }
 
-            private void btnSalir_Click(object sender, EventArgs e)
+        private void btnSalir_Click(object sender, EventArgs e)
         {
             this.Close();
         }
@@ -218,7 +202,7 @@ namespace Modulo_Administracion.Vista
                 {
                     if (view.GetRowCellValue(e.RowHandle, view.Columns["Tipo Factura"]).ToString() != "") //si hay algo escrito en Tipo Factura
                     {
-                        
+
                         //voy a buscar el ultimo nro de factura vieja y pongo (ese valor + 1)  en Nro Factura  
                         //ya que cuando hago click en "agregar movimiento" y elijo el tipo de remito , necesito que en Nro Factura me cargue el ultimo nro de factura vieja +  1
                         Int64 ultimo_nro_factura_vieja = logica_cliente_cuenta_corriente.buscar_ultimo_nro_factura_vieja();
@@ -271,11 +255,11 @@ namespace Modulo_Administracion.Vista
                                     throw new Exception("Ya existe ese nro de factura en el tipo : " + view.GetRowCellValue(e.RowHandle, "Tipo Factura").ToString());
                                 }
                             }
-                           
+
                         }
                     }
                 }
-                else if (e.Column.FieldName == "Imp Factura" ||  e.Column.FieldName == "Pago 1" || e.Column.FieldName == "Pago 2" || e.Column.FieldName == "Pago 3" || e.Column.FieldName == "Pago 4")
+                else if (e.Column.FieldName == "Imp Factura" || e.Column.FieldName == "Pago 1" || e.Column.FieldName == "Pago 2" || e.Column.FieldName == "Pago 3" || e.Column.FieldName == "Pago 4")
                 {
 
 
@@ -479,7 +463,7 @@ namespace Modulo_Administracion.Vista
             {
                 List<cliente_cuenta_corriente> lista_cliente_cuenta_corriente = new List<cliente_cuenta_corriente>() { };
                 cliente_cuenta_corriente cliente_cuenta_corriente = null;
-      
+
 
                 Valido(gridView1);
 
@@ -487,7 +471,7 @@ namespace Modulo_Administracion.Vista
                 //grabacion
                 for (int i = 0; i < gridView1.DataRowCount; i++)
                 {
-                   
+
                     cliente_cuenta_corriente = new cliente_cuenta_corriente();
 
                     if (gridView1.GetRowCellValue(i, "Id_factura").ToString() == "") //si es una factura de las viejas
@@ -619,7 +603,7 @@ namespace Modulo_Administracion.Vista
                     cliente_cuenta_corriente.observacion = gridView1.GetRowCellValue(i, "Observacion Movimiento Cta Cte").ToString();
 
                     lista_cliente_cuenta_corriente.Add(cliente_cuenta_corriente);
-                    
+
                 }
 
 
@@ -708,7 +692,7 @@ namespace Modulo_Administracion.Vista
                 string id = gridView1.GetRowCellValue(gridView1.FocusedRowHandle, "Id").ToString();
                 string tipo_factura = gridView1.GetRowCellValue(gridView1.FocusedRowHandle, "Tipo Factura").ToString();
                 string fecha = gridView1.GetRowCellValue(gridView1.FocusedRowHandle, "Fecha").ToString();
-                
+
                 if (id != "" && gridView1.FocusedColumn.FieldName == "Id")
                 {
                     e.Cancel = true;
@@ -738,7 +722,7 @@ namespace Modulo_Administracion.Vista
                 {
                     e.Cancel = true;
                     throw new Exception("Debe seleccionar un tipo de factura antes de cargar el número de la misma");
-                    
+
                 }
             }
             catch (Exception ex)
@@ -752,7 +736,7 @@ namespace Modulo_Administracion.Vista
             try
             {
 
-               
+
 
             }
             catch (Exception ex)
@@ -807,7 +791,7 @@ namespace Modulo_Administracion.Vista
             catch (Exception ex)
             {
                 throw ex;
-                
+
             }
         }
 
@@ -823,7 +807,7 @@ namespace Modulo_Administracion.Vista
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-          
+
         }
 
         //funcion que indica que "," y "." es lo mismo
@@ -831,9 +815,9 @@ namespace Modulo_Administracion.Vista
         {
             try
             {
-                 GridView view = sender as GridView;
-                 if (view.FocusedColumn.FieldName == "Imp Factura" || view.FocusedColumn.FieldName == "Pago 1" || view.FocusedColumn.FieldName == "Pago 2" || view.FocusedColumn.FieldName == "Pago 3" || view.FocusedColumn.FieldName == "Pago 4")
-                 {
+                GridView view = sender as GridView;
+                if (view.FocusedColumn.FieldName == "Imp Factura" || view.FocusedColumn.FieldName == "Pago 1" || view.FocusedColumn.FieldName == "Pago 2" || view.FocusedColumn.FieldName == "Pago 3" || view.FocusedColumn.FieldName == "Pago 4")
+                {
                     if (char.IsNumber(e.KeyChar) || char.IsControl(e.KeyChar) || e.KeyChar == ',' || e.KeyChar == '.')
                     {
                         if (e.KeyChar == '.') //si llego a escribir un punto , lo reemplazo por coma

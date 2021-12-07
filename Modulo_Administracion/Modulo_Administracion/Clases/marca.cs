@@ -4,7 +4,6 @@ namespace Modulo_Administracion.Clases
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
     [Table("marca")]
     public partial class marca
@@ -35,7 +34,7 @@ namespace Modulo_Administracion.Clases
         [StringLength(100)]
         public string accion { get; set; }
 
-        [StringLength(500)]
+        [StringLength(400)]
         public string path_img { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

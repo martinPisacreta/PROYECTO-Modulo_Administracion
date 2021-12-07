@@ -1,13 +1,4 @@
-﻿using System;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
-using DevExpress.XtraReports.UI;
-using DevExpress.DataAccess.Sql;
-using DevExpress.DataAccess.Sql.DataApi;
-using System.Data;
-
-namespace Modulo_Administracion
+﻿namespace Modulo_Administracion
 {
     public partial class reporte_factura : DevExpress.XtraReports.UI.XtraReport
     {
@@ -18,7 +9,7 @@ namespace Modulo_Administracion
 
         }
 
-       
+
 
         private void xrTable1_BeforePrint(object sender, System.Drawing.Printing.PrintEventArgs e)
         {

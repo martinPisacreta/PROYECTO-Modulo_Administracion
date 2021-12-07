@@ -6,8 +6,6 @@ using System.Data;
 using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Modulo_Administracion.Logica
 {
@@ -132,7 +130,7 @@ namespace Modulo_Administracion.Logica
             }
             return set2;
         }
-    
+
 
 
         public bool alta_movimiento_cuenta_corriente(factura factura, Modulo_AdministracionContext db) // esta funcion se relaciona 100% al dar de alta una factura en el sistema
@@ -144,27 +142,27 @@ namespace Modulo_Administracion.Logica
             try
             {
                 if (factura.cod_tipo_factura == 1) //a pedido de maxi , solamente el remito se da de alta en cuenta corriente al generar una factura
-                { 
-                    
+                {
+
                     cliente_cuenta_corriente_a_insertar = new cliente_cuenta_corriente();
                     cliente_cuenta_corriente_a_insertar.id_cliente = factura.id_cliente;
                     cliente_cuenta_corriente_a_insertar.id_factura = factura.id_factura;
 
 
-                  
+
 
                     //el imp_factura es segun la condicion de factura de la factura
                     if (factura.id_condicion_factura == 1)
                     {
-                        cliente_cuenta_corriente_a_insertar.imp_factura = factura.precio_final_con_pago_mayor_a_30_dias; 
+                        cliente_cuenta_corriente_a_insertar.imp_factura = factura.precio_final_con_pago_mayor_a_30_dias;
                     }
-                    else if(factura.id_condicion_factura == 2)
+                    else if (factura.id_condicion_factura == 2)
                     {
-                        cliente_cuenta_corriente_a_insertar.imp_factura = factura.precio_final_con_pago_menor_a_30_dias; 
+                        cliente_cuenta_corriente_a_insertar.imp_factura = factura.precio_final_con_pago_menor_a_30_dias;
                     }
                     else if (factura.id_condicion_factura == 3)
                     {
-                        cliente_cuenta_corriente_a_insertar.imp_factura = factura.precio_final_con_pago_menor_a_7_dias; 
+                        cliente_cuenta_corriente_a_insertar.imp_factura = factura.precio_final_con_pago_menor_a_7_dias;
                     }
 
                     db.cliente_cuenta_corriente.Add(cliente_cuenta_corriente_a_insertar);
@@ -181,7 +179,7 @@ namespace Modulo_Administracion.Logica
         }
 
 
-     
+
 
         public bool eliminar_movimiento_cuenta_corriente(int id_cliente_cuenta_corriente)
         {
@@ -235,7 +233,7 @@ namespace Modulo_Administracion.Logica
                         }
                     }
 
-                   
+
 
                     dbContextTransaction.Commit();
 
@@ -256,11 +254,11 @@ namespace Modulo_Administracion.Logica
         }
 
 
-       
+
 
         public bool modificar_movimiento_cuenta_corriente(cliente_cuenta_corriente cliente_cuenta_corriente, Modulo_AdministracionContext db)
         {
-           
+
             try
             {
                 bool bandera = false;
@@ -321,7 +319,7 @@ namespace Modulo_Administracion.Logica
             }
         }
 
-        public DataSet buscar_movimientos_cuenta_corriente_por_id_cliente(int id_cliente,int tipo)
+        public DataSet buscar_movimientos_cuenta_corriente_por_id_cliente(int id_cliente, int tipo)
         {
             SqlConnection conn = null;
             SqlDataReader reader = null;

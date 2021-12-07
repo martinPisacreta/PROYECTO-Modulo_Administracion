@@ -1,26 +1,15 @@
 ﻿using Modulo_Administracion.Clases;
 using Modulo_Administracion.Logica;
 using Modulo_Administracion.Vista;
+using Syncfusion.XlsIO;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.Entity;
-using System.Data.OleDb;
-using System.Data.SqlClient;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Syncfusion.XlsIO;
-using System.Data;
-using System.IO;
-using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace Modulo_Administracion
 {
@@ -85,7 +74,7 @@ namespace Modulo_Administracion
                 dgvExcelInexistentes.DataSource = null;
                 dgvDatosErroneos.DataSource = null;
 
-                
+
 
                 panelSeteoPMF.Enabled = false;
 
@@ -106,7 +95,7 @@ namespace Modulo_Administracion
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            
+
             frmEspere form = new frmEspere();
             try
             {
@@ -149,7 +138,7 @@ namespace Modulo_Administracion
 
 
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -158,16 +147,16 @@ namespace Modulo_Administracion
                 Cursor.Current = Cursors.Default;
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-           
+
         }
-        
+
 
         private void Llenar_DataGridView(string archivo)
         {
             Cursor.Current = Cursors.WaitCursor;
             try
             {
-                
+
 
                 try
                 {
@@ -192,7 +181,7 @@ namespace Modulo_Administracion
                     List<DataRow> deletedRows = new List<DataRow>();
                     List<DataRow> addRows = new List<DataRow>();
 
-                   
+
 
                     //elimino las columnas del data_table_datos_correctos con nro de columna mayor a 3
                     int desiredSize = 3;
@@ -224,10 +213,10 @@ namespace Modulo_Administracion
 
 
                     //cargo los dataGridView
-                    dgvExcelExistentes.DataSource = logica_articulo.buscar_articulos_en_relacion_a_dataTable(data_table_datos,1,Convert.ToInt32(cbProveedor.SelectedValue)).Tables[0];
+                    dgvExcelExistentes.DataSource = logica_articulo.buscar_articulos_en_relacion_a_dataTable(data_table_datos, 1, Convert.ToInt32(cbProveedor.SelectedValue)).Tables[0];
                     dgvExcelInexistentes.DataSource = logica_articulo.buscar_articulos_en_relacion_a_dataTable(data_table_datos, 2, Convert.ToInt32(cbProveedor.SelectedValue)).Tables[0];
                     dgvDatosErroneos.DataSource = logica_articulo.buscar_articulos_en_relacion_a_dataTable(data_table_datos, 3, Convert.ToInt32(cbProveedor.SelectedValue)).Tables[0];
-                       
+
 
                     if (dgvExcelInexistentes.Rows.Count > 0)
                     {
@@ -236,7 +225,7 @@ namespace Modulo_Administracion
                         cargarCombos(2);
                     }
 
-                    
+
                 }
                 catch (Exception ex)
                 {
@@ -244,7 +233,7 @@ namespace Modulo_Administracion
                     throw new Exception(ex.Message);
 
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -258,7 +247,7 @@ namespace Modulo_Administracion
 
         }
 
-        
+
 
 
         private void cargarCombos(int tipo)
@@ -291,7 +280,7 @@ namespace Modulo_Administracion
         }
 
 
-       
+
 
         private void cbMarca_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -325,7 +314,7 @@ namespace Modulo_Administracion
                 //en caso de haber una excepcion que nos mande un mensaje de error
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
+
         }
 
 
@@ -349,7 +338,7 @@ namespace Modulo_Administracion
                     if (dataGridView.Rows[i].Cells[j].Value == null || dataGridView.Rows[i].Cells[j].Value == "")
                     {
                         hay_celdas_vacias = true;
-      
+
                     }
                 }
             }
@@ -374,7 +363,7 @@ namespace Modulo_Administracion
                         throw new Exception("No hay registros para importar");
                     }
 
-                   
+
 
 
 
@@ -392,7 +381,7 @@ namespace Modulo_Administracion
                         }
 
 
-                        if (logica_articulo.modificar_articulos_existentes(lista_articulos,db) == false)
+                        if (logica_articulo.modificar_articulos_existentes(lista_articulos, db) == false)
                         {
                             throw new Exception("Error al actualizar los articulos EXISTENTES");
                         }
@@ -424,7 +413,7 @@ namespace Modulo_Administracion
                         }
 
 
-                        if (logica_articulo.alta_articulos_inexistentes(lista_articulos,db) == false)
+                        if (logica_articulo.alta_articulos_inexistentes(lista_articulos, db) == false)
                         {
                             throw new Exception("Error al actualizar los articulos INEXISTENTES");
                         }
@@ -439,7 +428,7 @@ namespace Modulo_Administracion
                     form.Hide();
                     Cursor.Current = Cursors.Default;
 
-                    
+
                 }
                 catch (Exception ex)
                 {
@@ -457,11 +446,11 @@ namespace Modulo_Administracion
             }
 
 
-            
-           
+
+
         }
 
-     
+
 
         private void btnCancelarPMF_Click(object sender, EventArgs e)
         {
@@ -469,11 +458,11 @@ namespace Modulo_Administracion
             {
                 cbMarca.SelectedIndexChanged -= new EventHandler(cbMarca_SelectedIndexChanged);
 
-                
+
                 cbMarca.SelectedItem = null;
                 cbFamilia.SelectedItem = null;
 
-               
+
             }
             catch (Exception ex)
             {
@@ -536,7 +525,7 @@ namespace Modulo_Administracion
             try
             {
                 string origen = Path.Combine(Application.StartupPath, @"Documento\Libro1.xlsx");
-                string destino = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Libro1.xlsx" ;
+                string destino = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Libro1.xlsx";
                 System.IO.File.Copy(origen, destino, true);
 
                 Process.Start(destino);
@@ -553,7 +542,7 @@ namespace Modulo_Administracion
         {
             try
             {
-                
+
                 btnBuscar.Enabled = true;
             }
             catch (Exception ex)

@@ -1,8 +1,6 @@
 ﻿using Modulo_Administracion.Clases;
 using Modulo_Administracion.Logica;
-using Modulo_Administracion.Vista;
 using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 
 
@@ -38,7 +36,7 @@ namespace Modulo_Administracion
 
                 txtCodigo.Text = "";
                 txtNombre.Text = "";
-               
+
 
 
             }
@@ -57,15 +55,15 @@ namespace Modulo_Administracion
                 btnSalir.Enabled = true;
 
                 txtNombre.Enabled = true;
-               
 
-              
+
+
                 //datagridview
                 dgvVendedor.Enabled = true;
 
                 txtBusqueda.Enabled = true;
 
-               
+
 
 
                 switch (queHago)
@@ -78,7 +76,7 @@ namespace Modulo_Administracion
 
                             //modifico  enabled - visible - text 
                             txtNombre.Enabled = false;
-                           
+
 
                             btnNuevo.Enabled = true;
                             btnAgregar.Visible = false;
@@ -96,7 +94,7 @@ namespace Modulo_Administracion
                             //esto sirve para ordenar las columnas con click del usuario
                             //SortableBindingList<vendedor> order = new SortableBindingList<vendedor>(logica_vendedor.buscar_vendedores());
                             dgvVendedor.DataSource = logica_vendedor.buscar_vendedores();
-                            
+
                             //seteo columnas
                             seteoColumnasDataGridView();
 
@@ -113,7 +111,7 @@ namespace Modulo_Administracion
                             //limpio todo el form , excepto el datagridview
                             limpio_form();
 
-                         
+
                             btnNuevo.Enabled = false;
                             btnAgregar.Visible = true;
                             btnCancelarSeleccion.Visible = true;
@@ -130,7 +128,7 @@ namespace Modulo_Administracion
                             vendedor.sn_activo = -1;
                             vendedor.fec_ult_modif = DateTime.Now;
                             vendedor.accion = "ALTA";
-                           
+
 
                             //datagridview
                             dgvVendedor.Enabled = false;
@@ -174,7 +172,7 @@ namespace Modulo_Administracion
         {
             try
             {
-                
+
 
                 dgvVendedor.Columns[0].Width = 100;
                 dgvVendedor.Columns[0].HeaderText = "Id Vendedor";
@@ -213,7 +211,7 @@ namespace Modulo_Administracion
 
                     txtCodigo.Text = vendedor.id_vendedor.ToString();
                     txtNombre.Text = vendedor.nombre.ToString();
-                 
+
 
 
                     txtNombre.Focus();
@@ -242,9 +240,9 @@ namespace Modulo_Administracion
             }
         }
 
-      
 
-   
+
+
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
@@ -263,7 +261,7 @@ namespace Modulo_Administracion
                         return;
                     }
 
-                    if (logica_vendedor.alta_vendedor(vendedor) == false) 
+                    if (logica_vendedor.alta_vendedor(vendedor) == false)
                     {
                         MessageBox.Show("Error al grabar el vendedor", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
@@ -287,7 +285,7 @@ namespace Modulo_Administracion
                     }
 
                     MessageBox.Show("Modificación exitosa", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                  
+
 
                 }
                 vendedor = null;
@@ -324,23 +322,23 @@ namespace Modulo_Administracion
                     txtNombre.Focus();
                     throw new Exception("Debe ingresar un nombre");
                 }
-              
+
                 if (txtCodigo.Text != "")
                 {
                     id_vendedor = Convert.ToInt32(txtCodigo.Text);
-                   
+
                 }
-                
+
                 if (logica_vendedor.buscar_vendedor_por_nombre_activo(txtNombre.Text, id_vendedor) != null)
                 {
                     txtNombre.Focus();
                     throw new Exception("Ya existe un vendedor con este nombre");
                 }
-                
-              
 
 
-               
+
+
+
 
             }
             catch (Exception ex)
@@ -358,9 +356,9 @@ namespace Modulo_Administracion
         {
             try
             {
-                
+
                 vendedor.nombre = txtNombre.Text;
-               
+
 
             }
             catch (Exception ex)
@@ -375,7 +373,7 @@ namespace Modulo_Administracion
             {
                 txtNombre.Focus();
                 iniciar(Program.Alta);
-               
+
 
             }
             catch (Exception ex)
@@ -432,18 +430,18 @@ namespace Modulo_Administracion
 
         private void frmVendedor_Load(object sender, EventArgs e)
         {
-        
+
             try
             {
-              
+
                 iniciar(Program.Inicio);
-             
+
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-           
+
         }
 
         private void txtNombre_Leave(object sender, EventArgs e)
@@ -459,20 +457,20 @@ namespace Modulo_Administracion
             }
         }
 
-  
-     
+
+
         private void txtBusqueda_TextChanged(object sender, EventArgs e)
         {
             try
             {
 
-                    dgvVendedor.DataSource = logica_vendedor.filtro_vendedor_nombre(txtBusqueda.Text.Trim());
+                dgvVendedor.DataSource = logica_vendedor.filtro_vendedor_nombre(txtBusqueda.Text.Trim());
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-          
+
         }
 
         private void dgvVendedor_CellDoubleClick(object sender, DataGridViewCellEventArgs e)

@@ -1,13 +1,11 @@
-﻿using System;
+﻿using Modulo_Administracion.Clases;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Data.SqlClient;
-using System.Data;
 using System.Configuration;
-
-using Modulo_Administracion.Clases;
+using System.Data;
 using System.Data.Entity;
+using System.Data.SqlClient;
+using System.Linq;
 
 namespace Modulo_Administracion.Logica
 {
@@ -39,7 +37,7 @@ namespace Modulo_Administracion.Logica
                     factura_a_insertar.id_cliente = factura.id_cliente;
                     factura_a_insertar.cod_tipo_factura = factura.cod_tipo_factura;
                     factura_a_insertar.ttipo_factura = ttipo_factura_bd;
-                    
+
                     factura_a_insertar.nro_factura = Convert.ToInt64(nro_factura.ToString());
 
 
@@ -55,7 +53,7 @@ namespace Modulo_Administracion.Logica
                     factura_a_insertar.sn_mostrar_pago_menor_30_dias = factura.sn_mostrar_pago_menor_30_dias;
                     factura_a_insertar.sn_mostrar_pago_menor_7_dias = factura.sn_mostrar_pago_menor_7_dias;
                     factura_a_insertar.id_condicion_factura = logica_cliente.buscar_cliente(factura.id_cliente, db).id_condicion_factura;
-                  
+
                     if (factura_a_insertar.sn_emitida == -1)
                     {
                         factura_a_insertar.fecha = Convert.ToDateTime(factura.fecha.ToString("yyyy-MM-dd"));
@@ -68,10 +66,10 @@ namespace Modulo_Administracion.Logica
                         factura_a_insertar.fecha_sn_emitida = factura.fecha_sn_emitida;
                         factura_a_insertar.path_factura = factura.path_factura;
                     }
-                    
+
                     db.factura.Add(factura_a_insertar);
                     db.SaveChanges();
-                  
+
 
                     foreach (factura_detalle item_factura in factura.factura_detalle)
                     {
@@ -141,7 +139,7 @@ namespace Modulo_Administracion.Logica
 
 
                     //SI CAMBIO ACA , TAMBIEN CAMBIAR LINEA DONDE DICE "PEPE EL PISTOLERO"
-                    if (factura_db.sn_emitida == -1) 
+                    if (factura_db.sn_emitida == -1)
                     {
                         factura_db.fecha = Convert.ToDateTime(factura.fecha.ToString("yyyy-MM-dd"));
                         factura_db.fecha_sn_emitida = factura.fecha_sn_emitida;
@@ -155,7 +153,7 @@ namespace Modulo_Administracion.Logica
                     //HASTA ACA
 
 
-                   
+
 
                     db.SaveChanges();
 

@@ -1,21 +1,14 @@
-﻿using Modulo_Administracion.Clases;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Modulo_Administracion.Clases;
-using System.Data.Entity;
-using System.Data.SqlClient;
-using System.Data;
+﻿using System;
 using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace Modulo_Administracion.Logica
 {
     public class Logica_Factura_Tipo
     {
 
-       
+
 
         public Int32 ult_nro_factura_no_usado_en_tipo_factura(decimal cod_tipo_factura)
         {

@@ -1,14 +1,8 @@
 ﻿
 using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
-using System.Xml.Linq;
 
 namespace Modulo_Administracion.Capas.Logica_Afip
 {
@@ -29,76 +23,76 @@ namespace Modulo_Administracion.Capas.Logica_Afip
             using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["Modulo_AdministracionContext"].ConnectionString))
             {
                 conn.Open();
-               
-                    try
-                    {
 
-                        DataSet dataSet = new DataSet("TimeRanges");
-                        SqlParameter param = null;
-                        bool bandera = false;
-                        SqlCommand command = new SqlCommand("insert_ticket", conn);
+                try
+                {
 
-                        param = new SqlParameter();
-                        param.DbType = DbType.String;
-                        param.ParameterName = "@TOKEN";
-                        param.Value = TOKEN;
-                        command.Parameters.Add(param);
+                    DataSet dataSet = new DataSet("TimeRanges");
+                    SqlParameter param = null;
+                    bool bandera = false;
+                    SqlCommand command = new SqlCommand("insert_ticket", conn);
 
-                        param = new SqlParameter();
-                        param.DbType = DbType.String;
-                        param.ParameterName = "@SIGN";
-                        param.Value = SIGN;
-                        command.Parameters.Add(param);
+                    param = new SqlParameter();
+                    param.DbType = DbType.String;
+                    param.ParameterName = "@TOKEN";
+                    param.Value = TOKEN;
+                    command.Parameters.Add(param);
 
-                        param = new SqlParameter();
-                        param.DbType = DbType.DateTime;
-                        param.ParameterName = "@EXPIRATION_TIME";
-                        param.Value = EXPIRATION_TIME;
-                        command.Parameters.Add(param);
+                    param = new SqlParameter();
+                    param.DbType = DbType.String;
+                    param.ParameterName = "@SIGN";
+                    param.Value = SIGN;
+                    command.Parameters.Add(param);
 
-                        param = new SqlParameter();
-                        param.DbType = DbType.DateTime;
-                        param.ParameterName = "@GENERATION_TIME";
-                        param.Value = GENERATION_TIME;
-                        command.Parameters.Add(param);
+                    param = new SqlParameter();
+                    param.DbType = DbType.DateTime;
+                    param.ParameterName = "@EXPIRATION_TIME";
+                    param.Value = EXPIRATION_TIME;
+                    command.Parameters.Add(param);
 
-                        param = new SqlParameter();
-                        param.DbType = DbType.String;
-                        param.ParameterName = "@XDOC_REQUEST";
-                        param.Value = XDOC_REQUEST;
-                        command.Parameters.Add(param);
+                    param = new SqlParameter();
+                    param.DbType = DbType.DateTime;
+                    param.ParameterName = "@GENERATION_TIME";
+                    param.Value = GENERATION_TIME;
+                    command.Parameters.Add(param);
 
-                        param = new SqlParameter();
-                        param.DbType = DbType.String;
-                        param.ParameterName = "@XDOC_RESPONSE";
-                        param.Value = XDOC_RESPONSE;
-                        command.Parameters.Add(param);
+                    param = new SqlParameter();
+                    param.DbType = DbType.String;
+                    param.ParameterName = "@XDOC_REQUEST";
+                    param.Value = XDOC_REQUEST;
+                    command.Parameters.Add(param);
 
-                        param = new SqlParameter();
-                        param.DbType = DbType.String;
-                        param.ParameterName = "@AMBIENTE";
-                        param.Value = AMBIENTE;
-                        command.Parameters.Add(param);
+                    param = new SqlParameter();
+                    param.DbType = DbType.String;
+                    param.ParameterName = "@XDOC_RESPONSE";
+                    param.Value = XDOC_RESPONSE;
+                    command.Parameters.Add(param);
+
+                    param = new SqlParameter();
+                    param.DbType = DbType.String;
+                    param.ParameterName = "@AMBIENTE";
+                    param.Value = AMBIENTE;
+                    command.Parameters.Add(param);
 
 
-                        command.CommandTimeout = 0;
+                    command.CommandTimeout = 0;
 
-                        command.CommandType = CommandType.StoredProcedure;
+                    command.CommandType = CommandType.StoredProcedure;
 
-                        command.ExecuteNonQuery();
+                    command.ExecuteNonQuery();
 
-                        bandera = true;
-                        return bandera;
+                    bandera = true;
+                    return bandera;
 
-                    }
-                    catch (Exception ex)
-                    {
-                        conn.Close();
-                        throw ex;
-                    }
+                }
+                catch (Exception ex)
+                {
+                    conn.Close();
+                    throw ex;
+                }
 
-                    
-                
+
+
 
             }
         }
@@ -108,7 +102,7 @@ namespace Modulo_Administracion.Capas.Logica_Afip
             using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["Modulo_AdministracionContext"].ConnectionString))
             {
                 conn.Open();
-               
+
 
                 try
                 {
@@ -152,12 +146,12 @@ namespace Modulo_Administracion.Capas.Logica_Afip
                 }
 
 
-                
+
 
             }
         }
 
 
-  
+
     }
 }

@@ -1,28 +1,26 @@
-﻿using System;
+﻿using Modulo_Administracion.Clases;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Data.SqlClient;
-using System.Data;
 using System.Configuration;
-using Modulo_Administracion.Clases;
-using System.Data.Entity;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
 
 namespace Modulo_Administracion.Logica
 {
     public class Logica_Proveedor_Direccion
     {
 
- 
-        public bool alta_direccion(proveedor_dir direccion,int id_proveedor, Modulo_AdministracionContext db)
+
+        public bool alta_direccion(proveedor_dir direccion, int id_proveedor, Modulo_AdministracionContext db)
         {
-          
+
             bool bandera = false;
             try
             {
 
 
-               
+
                 proveedor_dir proveedor_dir_a_insertar = new proveedor_dir();
                 proveedor_dir_a_insertar.id_proveedor = id_proveedor;
                 proveedor_dir_a_insertar.cod_tipo_dir = direccion.ttipo_dir.cod_tipo_dir;
@@ -42,16 +40,16 @@ namespace Modulo_Administracion.Logica
                 proveedor_dir_a_insertar.accion = direccion.accion;
                 db.proveedor_dir.Add(proveedor_dir_a_insertar);
                 db.SaveChanges();
-                
+
                 bandera = true;
-                
+
                 return bandera;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-          
+
         }
 
 
@@ -146,7 +144,7 @@ namespace Modulo_Administracion.Logica
             SqlConnection conn = null;
             SqlDataReader reader = null;
             DataSet set2;
-            
+
             try
             {
 
@@ -344,10 +342,10 @@ namespace Modulo_Administracion.Logica
             Modulo_AdministracionContext db = new Modulo_AdministracionContext();
             try
             {
-         
+
                 List<proveedor_dir> direcciones = (from d in db.proveedor_dir
-                                  where d.id_proveedor == id_proveedor && d.sn_activo == -1
-                                  select d).ToList();
+                                                   where d.id_proveedor == id_proveedor && d.sn_activo == -1
+                                                   select d).ToList();
 
 
                 return direcciones;
@@ -365,12 +363,12 @@ namespace Modulo_Administracion.Logica
         }
 
 
-        public proveedor_dir buscar_direccion(int id_proveedor,decimal cod_tipo_dir )
+        public proveedor_dir buscar_direccion(int id_proveedor, decimal cod_tipo_dir)
         {
             Modulo_AdministracionContext db = new Modulo_AdministracionContext();
             try
             {
-       
+
                 proveedor_dir direccion = db.proveedor_dir.FirstOrDefault(p => p.id_proveedor == id_proveedor && p.cod_tipo_dir == cod_tipo_dir);
 
 
@@ -395,15 +393,15 @@ namespace Modulo_Administracion.Logica
             {
 
                 List<proveedor_dir> lista_proveedor_dir = (from pd in db.proveedor_dir
-                                                where pd.id_proveedor == id_proveedor
-                                                select pd).ToList();
+                                                           where pd.id_proveedor == id_proveedor
+                                                           select pd).ToList();
                 foreach (proveedor_dir pd in lista_proveedor_dir)
                 {
 
                     pd.sn_activo = 0;
                     pd.accion = "ELIMINACION";
                     pd.fec_ult_modif = DateTime.Now;
-                  
+
 
 
                 }

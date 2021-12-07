@@ -1,28 +1,26 @@
-﻿using System;
+﻿using Modulo_Administracion.Clases;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Data.SqlClient;
-using System.Data;
 using System.Configuration;
-using Modulo_Administracion.Clases;
-using System.Data.Entity;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
 
 namespace Modulo_Administracion.Logica
 {
     public class Logica_Cliente_Direccion
     {
 
- 
-        public bool alta_direccion(cliente_dir direccion,int id_cliente, Modulo_AdministracionContext db)
+
+        public bool alta_direccion(cliente_dir direccion, int id_cliente, Modulo_AdministracionContext db)
         {
-          
+
             bool bandera = false;
             try
             {
 
 
-               
+
                 cliente_dir cliente_dir_a_insertar = new cliente_dir();
                 cliente_dir_a_insertar.id_cliente = id_cliente;
                 cliente_dir_a_insertar.cod_tipo_dir = direccion.ttipo_dir.cod_tipo_dir;
@@ -42,19 +40,19 @@ namespace Modulo_Administracion.Logica
                 cliente_dir_a_insertar.accion = direccion.accion;
                 db.cliente_dir.Add(cliente_dir_a_insertar);
                 db.SaveChanges();
-                
+
                 bandera = true;
-                
+
                 return bandera;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-            
+
         }
 
-      
+
         public bool modificar_direccion(cliente_dir direccion, Modulo_AdministracionContext db)
         {
             bool bandera = false;
@@ -80,7 +78,7 @@ namespace Modulo_Administracion.Logica
                     }
                     else
                     {
-                        
+
                         direccion_db.id_cliente = direccion.id_cliente;
                         direccion_db.cod_tipo_dir = direccion.cod_tipo_dir;
                         direccion_db.cod_clase_dir = direccion.cod_clase_dir;
@@ -103,19 +101,19 @@ namespace Modulo_Administracion.Logica
                 }
 
                 bandera = true;
-                
+
                 return true;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-           
+
         }
 
         public bool eliminar_direccion(cliente_dir direccion, Modulo_AdministracionContext db)
         {
-          
+
             bool bandera = false;
             try
             {
@@ -132,7 +130,7 @@ namespace Modulo_Administracion.Logica
             {
                 throw ex;
             }
-            
+
         }
 
         public DataSet buscar_calle(List<string> Calle)
@@ -140,7 +138,7 @@ namespace Modulo_Administracion.Logica
             SqlConnection conn = null;
             SqlDataReader reader = null;
             DataSet set2;
-            
+
             try
             {
 
@@ -338,10 +336,10 @@ namespace Modulo_Administracion.Logica
             Modulo_AdministracionContext db = new Modulo_AdministracionContext();
             try
             {
-         
+
                 List<cliente_dir> direcciones = (from d in db.cliente_dir
-                                  where d.id_cliente == id_cliente && d.sn_activo == -1
-                                  select d).ToList();
+                                                 where d.id_cliente == id_cliente && d.sn_activo == -1
+                                                 select d).ToList();
 
 
                 return direcciones;
@@ -359,12 +357,12 @@ namespace Modulo_Administracion.Logica
         }
 
 
-        public cliente_dir buscar_direccion(int id_cliente,decimal cod_tipo_dir )
+        public cliente_dir buscar_direccion(int id_cliente, decimal cod_tipo_dir)
         {
             Modulo_AdministracionContext db = new Modulo_AdministracionContext();
             try
             {
-       
+
                 cliente_dir direccion = db.cliente_dir.FirstOrDefault(p => p.id_cliente == id_cliente && p.cod_tipo_dir == cod_tipo_dir);
 
 
@@ -382,23 +380,23 @@ namespace Modulo_Administracion.Logica
             }
         }
 
-        
-        public bool dar_de_baja_cliente_dir_por_cliente(int id_cliente, Modulo_AdministracionContext db )
+
+        public bool dar_de_baja_cliente_dir_por_cliente(int id_cliente, Modulo_AdministracionContext db)
         {
             bool bandera = false;
             try
             {
 
                 List<cliente_dir> lista_cliente_dir = (from pd in db.cliente_dir
-                                                where pd.id_cliente == id_cliente
-                                                select pd).ToList();
+                                                       where pd.id_cliente == id_cliente
+                                                       select pd).ToList();
                 foreach (cliente_dir pd in lista_cliente_dir)
                 {
 
                     pd.sn_activo = 0;
                     pd.accion = "ELIMINACION";
                     pd.fec_ult_modif = DateTime.Now;
-                  
+
 
 
                 }

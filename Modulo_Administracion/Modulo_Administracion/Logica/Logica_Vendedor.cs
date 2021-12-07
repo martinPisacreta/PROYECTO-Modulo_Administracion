@@ -7,15 +7,13 @@ using System.Data;
 using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Modulo_Administracion.Logica
 {
     public class Logica_Vendedor
     {
 
-       
+
 
         public bool alta_vendedor(vendedor vendedor)
         {
@@ -41,7 +39,7 @@ namespace Modulo_Administracion.Logica
                     vendedor_a_insertar.sn_activo = vendedor.sn_activo;
                     vendedor_a_insertar.fec_ult_modif = vendedor.fec_ult_modif;
                     vendedor_a_insertar.accion = vendedor.accion;
-                
+
                     db.vendedor.Add(vendedor_a_insertar);
                     db.SaveChanges();
 
@@ -59,7 +57,7 @@ namespace Modulo_Administracion.Logica
                 {
                     db = null;
                 }
-            }  
+            }
         }
 
         public bool modificar_vendedor(vendedor vendedor)
@@ -74,7 +72,7 @@ namespace Modulo_Administracion.Logica
 
                     vendedor vendedor_db = db.vendedor.FirstOrDefault(f => f.id_vendedor == vendedor.id_vendedor);
                     vendedor_db.id_vendedor = vendedor.id_vendedor;
-                    vendedor_db.nombre = vendedor.nombre; 
+                    vendedor_db.nombre = vendedor.nombre;
                     vendedor_db.sn_activo = vendedor.sn_activo;
                     vendedor_db.accion = "MODIFICACION";
                     vendedor_db.fec_ult_modif = DateTime.Now;
@@ -139,11 +137,11 @@ namespace Modulo_Administracion.Logica
             Modulo_AdministracionContext db = new Modulo_AdministracionContext();
             try
             {
-             
+
 
                 List<vendedor> vendedores = (from v in db.vendedor
-                                               where v.sn_activo == -1
-                                              select v).ToList();
+                                             where v.sn_activo == -1
+                                             select v).ToList();
 
 
                 return vendedores;
@@ -156,11 +154,11 @@ namespace Modulo_Administracion.Logica
             {
                 db = null;
             }
-           
+
         }
 
 
-        public vendedor buscar_vendedor_por_nombre_activo(string nombre,int id_vendedor)
+        public vendedor buscar_vendedor_por_nombre_activo(string nombre, int id_vendedor)
         {
 
             Modulo_AdministracionContext db = new Modulo_AdministracionContext();
@@ -189,7 +187,7 @@ namespace Modulo_Administracion.Logica
             Modulo_AdministracionContext db = new Modulo_AdministracionContext();
             try
             {
-       
+
                 vendedor vendedor = db.vendedor.FirstOrDefault(p => p.id_vendedor == id_vendedor);
 
                 return vendedor;
@@ -205,7 +203,7 @@ namespace Modulo_Administracion.Logica
 
         }
 
-      
+
 
         public DataTable filtro_vendedor_nombre(string txtBusqueda)
         {
@@ -235,7 +233,7 @@ namespace Modulo_Administracion.Logica
             }
         }
 
-  
+
 
         public vendedor buscar_vendedor(string nombre)
         {

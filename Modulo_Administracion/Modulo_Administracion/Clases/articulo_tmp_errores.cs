@@ -1,10 +1,6 @@
 namespace Modulo_Administracion.Clases
 {
-    using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
     public partial class articulo_tmp_errores
     {
@@ -14,6 +10,7 @@ namespace Modulo_Administracion.Clases
         [StringLength(255)]
         public string codigo_articulo { get; set; }
 
+        [StringLength(400)]
         public string descripcion_articulo { get; set; }
 
         public double? precio_lista { get; set; }
@@ -24,7 +21,7 @@ namespace Modulo_Administracion.Clases
 
         public double? sn_oferta { get; set; }
 
-        [StringLength(255)]
+        [StringLength(400)]
         public string path_img { get; set; }
 
         public long? id_articulo { get; set; }
