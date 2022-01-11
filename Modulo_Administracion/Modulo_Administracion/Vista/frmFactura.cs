@@ -113,7 +113,7 @@ namespace Modulo_Administracion.Vista
                 }
 
                 //cargo el combo
-                Logica_Funciones_Generales.CargarComboBox("ttipo_factura", cbTipoFactura, "txt_desc", "1=1", "cod_tipo_factura", "cod_tipo_factura");
+                Logica_Funciones_Generales.CargarComboBox("ttipo_factura", cbTipoFactura, "txt_desc", "cod_tipo_factura in (1,2,6)", "cod_tipo_factura", "cod_tipo_factura");
 
 
                 if (factura == null) //si la accion es alta
